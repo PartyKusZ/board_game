@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="IRDZw3fAhUUEOGb23K9v" name="Page-1">
-        <mxGraphModel dx="2131" dy="757" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="3101" dy="1081" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -157,19 +157,19 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="113" value="Map" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" vertex="1" parent="1">
-                    <mxGeometry x="-520" y="720" width="160" height="52" as="geometry"/>
+                    <mxGeometry x="-780" y="890" width="160" height="52" as="geometry"/>
                 </mxCell>
                 <mxCell id="115" value="coś z tym mądrego zrobić" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="113">
                     <mxGeometry y="26" width="160" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="121" value="Status" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" vertex="1" parent="1">
-                    <mxGeometry x="-210" y="720" width="160" height="52" as="geometry"/>
+                    <mxGeometry x="-470" y="890" width="160" height="52" as="geometry"/>
                 </mxCell>
                 <mxCell id="122" value="coś z tym mądrego zrobić" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="121">
                     <mxGeometry y="26" width="160" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="125" value="Commands" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" vertex="1" parent="1">
-                    <mxGeometry x="-10" y="480" width="140" height="104" as="geometry"/>
+                    <mxGeometry x="-170" y="824" width="140" height="104" as="geometry"/>
                 </mxCell>
                 <mxCell id="126" value="- std::ostream file" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="125">
                     <mxGeometry y="26" width="140" height="26" as="geometry"/>
@@ -181,7 +181,7 @@
                     <mxGeometry y="78" width="140" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="129" value="File_parser" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" vertex="1" parent="1">
-                    <mxGeometry x="-400" y="480" width="235" height="164" as="geometry"/>
+                    <mxGeometry x="-660" y="650" width="235" height="164" as="geometry"/>
                 </mxCell>
                 <mxCell id="131" value="# std:: ifstream file" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="129">
                     <mxGeometry y="26" width="235" height="26" as="geometry"/>
@@ -202,7 +202,7 @@
                     <mxGeometry y="138" width="235" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="145" value="" style="group" vertex="1" connectable="0" parent="1">
-                    <mxGeometry x="-454" y="680" width="324" as="geometry"/>
+                    <mxGeometry x="-714" y="850" width="324" as="geometry"/>
                 </mxCell>
                 <mxCell id="135" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;elbow=vertical;" edge="1" parent="145" target="129">
                     <mxGeometry width="160" relative="1" as="geometry">
@@ -227,6 +227,42 @@
                             <mxPoint x="324"/>
                         </Array>
                     </mxGeometry>
+                </mxCell>
+                <mxCell id="159" value="Validator" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" vertex="1" parent="1">
+                    <mxGeometry x="-170" y="650" width="140" height="134" as="geometry"/>
+                </mxCell>
+                <mxCell id="166" value="może wsadzić ro po prostu do Commands?" style="text;html=1;strokeColor=#B09500;fillColor=#e3c800;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#000000;" vertex="1" parent="159">
+                    <mxGeometry y="26" width="140" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="160" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="159">
+                    <mxGeometry y="56" width="140" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="161" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="159">
+                    <mxGeometry y="82" width="140" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="162" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="159">
+                    <mxGeometry y="108" width="140" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="168" value="    Commander " style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" vertex="1" parent="1">
+                    <mxGeometry x="180" y="722" width="140" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="177" value="zrobić reascher o takich algorytmach&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#B09500;fillColor=#e3c800;fontColor=#000000;" vertex="1" parent="168">
+                    <mxGeometry y="26" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="176" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;endArrow=none;endFill=0;elbow=vertical;" edge="1" parent="1" source="173" target="168">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="173" value="&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;Klasa, w której bedą pracować algorytmy podejmujące decyzje&amp;nbsp;&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#006EAF;fillColor=#1ba1e2;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="430" y="690" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="178" value="&lt;h1&gt;Mapa&lt;/h1&gt;&lt;div&gt;Jak bardo rozwinąć apstakcje?&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;pracować na danych tekstowych?&lt;/li&gt;&lt;li&gt;tworzyć tablice 2na2 i na niej jakoś umieszczać jednostki ?&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#B09500;fillColor=#e3c800;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="-1050" y="850" width="220" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="180" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;endArrow=none;endFill=0;elbow=vertical;" edge="1" parent="1" source="179" target="177">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="179" value="Tworzyć osobne listy (mapy??) jednostek naszych i enemy?&amp;nbsp;&lt;br&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#006EAF;fillColor=#1ba1e2;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="808" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
