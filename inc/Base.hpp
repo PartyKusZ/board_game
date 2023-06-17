@@ -2,7 +2,13 @@
 #include "Unit.hpp"
 
 class Base: public Unit{
+    private:
+        static constexpr int _default_stamina = 200;
+        static constexpr int _speed = 0;
+        static constexpr int _cost = 0;
+        static constexpr int _attack_range = 0;
+        static constexpr int _building_time = 0;
     public:
-        Base(int _stamina, int _speed, int _cost, int _attack_range, int _building_time);
+        Base();
         ~Base();
 };

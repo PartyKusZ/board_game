@@ -1,11 +1,9 @@
 #include "Knight.hpp"
 
-Knight::Knight(int _stamina, 
-               int _speed, 
-               int _cost, 
-               int _attack_range, 
-               int _building_time):
-               
+Knight::Knight(int _stamina):
                Unit(_stamina, _speed, _cost, _attack_range, _building_time){};
+
+Knight::Knight():
+               Unit(_default_stamina, _speed, _cost, _attack_range, _building_time){};
 
 Knight::~Knight(){};
