@@ -14,13 +14,17 @@ Unit::Unit(int _stamina,
            int _speed, 
            int _cost, 
            int _attack_range, 
-           int _building_time):
+           int _building_time,
+           Type_of_unit _type_of_unit,
+           Ownership _ownership):
 
             stamina(_stamina),
             speed(_speed),
             cost(_cost),
             attack_range(_attack_range),
-            building_time(_building_time){}
+            building_time(_building_time),
+            type_of_unit(_type_of_unit),
+            ownership(_ownership){}
 
 /**
  * @brief Get the unit's stamina.
@@ -101,6 +105,15 @@ Unit::Unit(int _stamina,
   void Unit::set_building_time(int value){
     building_time = value;
 }
+
+Type_of_unit Unit::get_type_of_unit() const{
+  return type_of_unit;
+}
+
+Ownership Unit::get_ownership() const{
+  return ownership;
+}
+
 
 
 /**

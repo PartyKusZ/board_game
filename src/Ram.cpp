@@ -5,15 +5,15 @@
  * 
  * @param _stamina 
  */
-Ram::Ram(int _stamina):
-         Unit(_stamina, _speed, _cost, _attack_range, _building_time){};\
+Ram::Ram(int _stamina, Ownership _ownership):
+         Unit(_stamina, _speed, _cost, _attack_range, _building_time, _unit, _ownership){};
 
 /**
  * @brief Construct a new Ram:: Ram object
  * 
  */
-Ram::Ram():
-         Unit(_default_stamina, _speed, _cost, _attack_range, _building_time){};
+Ram::Ram(Ownership _ownership):
+         Unit(_default_stamina, _speed, _cost, _attack_range, _building_time, _unit, _ownership){};
 
 /**
  * @brief Destroy the Ram:: Ram object

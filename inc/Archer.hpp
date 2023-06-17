@@ -14,10 +14,12 @@ class Archer: public Unit{
         static constexpr int _attack_range = 5;     //!< default attack range
         static constexpr int _building_time = 3;    //!< default building time
 
+        static constexpr Type_of_unit _unit = Type_of_unit::ARCHER; //!< unit type
+
     public:
     /*Method descriptions can be found in the corresponding source file */
 
-        Archer(int _stamina);
-        Archer();
+        Archer(int _stamina, Ownership _ownership);
+        Archer(Ownership _ownership);
         ~Archer();
 };

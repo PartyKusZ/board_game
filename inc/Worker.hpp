@@ -14,10 +14,11 @@ class Worker: public Unit{
         static constexpr int _cost = 100;           //!< default cost
         static constexpr int _attack_range = 1;     //!< default attack range
         static constexpr int _building_time = 2;    //!< default building time
+        static constexpr Type_of_unit _unit = Type_of_unit::WORKER; //!< unit type
     public:
     /*Method descriptions can be found in the corresponding source file */
 
-        Worker(int _stamina);
-        Worker();
+        Worker(int _stamina, Ownership _ownership);
+        Worker(Ownership _ownership);
         ~Worker();
 };

@@ -13,10 +13,12 @@ class Pikeman: public Unit{
         static constexpr int _cost = 200;           //!< default cost
         static constexpr int _attack_range = 2;     //!< default attack range
         static constexpr int _building_time = 3;    //!< default building time
+        static constexpr Type_of_unit _unit = Type_of_unit::PIKEMAN; //!< unit type
+
     public:
     /*Method descriptions can be found in the corresponding source file */
 
-        Pikeman(int _stamina);
-        Pikeman();
+        Pikeman(int _stamina, Ownership _ownership);
+        Pikeman(Ownership _ownership);
         ~Pikeman();
 };
