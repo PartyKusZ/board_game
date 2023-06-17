@@ -26,7 +26,7 @@ Unit::Unit(int _stamina,
  * @brief Get the unit's stamina.
  * @return int Stamina value.
  */
-inline int Unit::get_stamina() const{
+  int Unit::get_stamina() const{
     return stamina;
 }
 
@@ -34,7 +34,7 @@ inline int Unit::get_stamina() const{
  * @brief Set the unit's stamina.
  * @param value New stamina value.
  */
-inline void Unit::set_stamina(int value){
+  void Unit::set_stamina(int value){
     stamina = value;
 }
 
@@ -42,7 +42,7 @@ inline void Unit::set_stamina(int value){
  * @brief Get the unit's speed.
  * @return int Speed value.
  */
-inline int Unit::get_speed() const{
+  int Unit::get_speed() const{
     return speed;
 }
 
@@ -50,7 +50,7 @@ inline int Unit::get_speed() const{
  * @brief Set the unit's speed.
  * @param value New speed value.
  */
-inline void Unit::set_speed(int value){
+  void Unit::set_speed(int value){
     speed = value;
 }
 
@@ -58,7 +58,7 @@ inline void Unit::set_speed(int value){
  * @brief Get the unit's cost.
  * @return int Cost value.
  */
-inline int Unit::get_cost() const{
+  int Unit::get_cost() const{
     return cost;
 }
 
@@ -66,7 +66,7 @@ inline int Unit::get_cost() const{
  * @brief Set the unit's cost.
  * @param value New cost value.
  */
-inline void Unit::set_cost(int value){
+  void Unit::set_cost(int value){
     cost = value;
 }
 
@@ -74,7 +74,7 @@ inline void Unit::set_cost(int value){
  * @brief Get the unit's attack range.
  * @return int Attack range value.
  */
-inline int Unit::get_attack_range() const{
+   int Unit::get_attack_range() const{
     return attack_range;
 }
 
@@ -82,7 +82,7 @@ inline int Unit::get_attack_range() const{
  * @brief Set the unit's attack range.
  * @param value New attack range value.
  */
-inline void Unit::set_attack_range(int value){
+  void Unit::set_attack_range(int value){
     attack_range = value;
 }
 
@@ -90,7 +90,7 @@ inline void Unit::set_attack_range(int value){
  * @brief Get the unit's building time.
  * @return int Building time value.
  */
-inline int Unit::get_building_time() const{
+  int Unit::get_building_time() const{
     return building_time;
 }
 
@@ -98,7 +98,7 @@ inline int Unit::get_building_time() const{
  * @brief Set the unit's building time.
  * @param value New building time value.
  */
-inline void Unit::set_building_time(int value){
+  void Unit::set_building_time(int value){
     building_time = value;
 }
 

@@ -17,17 +17,17 @@ class Unit{
        
         Unit(int _stamina, int _speed, int _cost, int _attack_range, int _building_time);
 
-        inline int get_stamina() const;
-        inline int get_speed() const;
-        inline int get_cost() const;
-        inline int get_attack_range() const;
-        inline int get_building_time() const;
+        virtual int get_stamina() const;
+        virtual int get_speed() const;
+        virtual int get_cost() const;
+        virtual int  get_attack_range() const;
+        virtual int get_building_time() const;
 
-        inline void set_stamina(int value);
-        inline void set_speed(int value);
-        inline void set_cost(int value);
-        inline void set_attack_range(int value);
-        inline void set_building_time(int value);
+        virtual void set_stamina(int value);
+        virtual void set_speed(int value);
+        virtual void set_cost(int value);
+        virtual void set_attack_range(int value);
+        virtual void set_building_time(int value);
 
         /**
          * @brief The virtaula method for determining the movement of a unit 
@@ -41,5 +41,5 @@ class Unit{
          */
         virtual void attack() = 0;
 
-        ~Unit();
+        virtual ~Unit();
 };
