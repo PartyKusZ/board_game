@@ -3,6 +3,6 @@
 
 class Base: public Unit{
     public:
-        Base();
+        Base(int _stamina, int _speed, int _cost, int _attack_range, int _building_time);
         ~Base();
 };

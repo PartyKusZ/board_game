@@ -3,6 +3,6 @@
 
 class Swordsman: public Unit{
     public:
-        Swordsman();
+        Swordsman(int _stamina, int _speed, int _cost, int _attack_range, int _building_time);
         ~Swordsman();
 };
