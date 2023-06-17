@@ -1,14 +1,20 @@
 #pragma once 
 #include "Unit.hpp"
 
+/**
+ * @brief Class representing an Knight unit
+ * 
+ */
 class Knight: public Unit{
     private:
-        static constexpr int _default_stamina = 70;
-        static constexpr int _speed = 5;
-        static constexpr int _cost = 400;
-        static constexpr int _attack_range = 1;
-        static constexpr int _building_time = 5;
+        static constexpr int _default_stamina = 70; //!< default stamina
+        static constexpr int _speed = 5;            //!< default speed
+        static constexpr int _cost = 400;           //!< default cost
+        static constexpr int _attack_range = 1;     //!< default attack range
+        static constexpr int _building_time = 5;    //!< default building time
     public:
+    /*Method descriptions can be found in the corresponding source file */
+
         Knight(int _stamina);
         Knight();
         ~Knight();
