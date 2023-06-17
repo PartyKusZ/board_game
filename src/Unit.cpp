@@ -106,10 +106,18 @@ Unit::Unit(int _stamina,
     building_time = value;
 }
 
+/**
+ * @brief Returns the unit's type.
+ * @return Type of the unit.
+ */
 Type_of_unit Unit::get_type_of_unit() const{
   return type_of_unit;
 }
 
+/**
+ * @brief Returns the unit's ownership.
+ * @return Ownership of the unit.
+ */
 Ownership Unit::get_ownership() const{
   return ownership;
 }
