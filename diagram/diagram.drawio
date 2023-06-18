@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="IRDZw3fAhUUEOGb23K9v" name="Page-1">
-        <mxGraphModel dx="3180" dy="1481" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="3231" dy="1291" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -91,10 +91,10 @@
                     <mxGeometry y="26" width="160" height="8" as="geometry"/>
                 </mxCell>
                 <mxCell id="113" value="Map" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" parent="1" vertex="1">
-                    <mxGeometry x="-780" y="890" width="160" height="52" as="geometry"/>
+                    <mxGeometry x="-820" y="890" width="260" height="52" as="geometry"/>
                 </mxCell>
-                <mxCell id="115" value="coś z tym mądrego zrobić" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="113" vertex="1">
-                    <mxGeometry y="26" width="160" height="26" as="geometry"/>
+                <mxCell id="115" value="-std::vector&lt;std::vector&lt;std::pair&lt;Field,Unit*&gt;&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="113" vertex="1">
+                    <mxGeometry y="26" width="260" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="121" value="Status" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" parent="1" vertex="1">
                     <mxGeometry x="-470" y="890" width="160" height="52" as="geometry"/>
@@ -115,7 +115,7 @@
                     <mxGeometry y="78" width="140" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="129" value="File_parser" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" parent="1" vertex="1">
-                    <mxGeometry x="-660" y="650" width="235" height="164" as="geometry"/>
+                    <mxGeometry x="-660" y="644" width="235" height="164" as="geometry"/>
                 </mxCell>
                 <mxCell id="131" value="# std:: ifstream file" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="129" vertex="1">
                     <mxGeometry y="26" width="235" height="26" as="geometry"/>
@@ -190,7 +190,7 @@
                     <mxGeometry x="430" y="690" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="178" value="&lt;h1&gt;Mapa&lt;/h1&gt;&lt;div&gt;Potrzebny enum określający czy jest przeszkoda czy droga czy kopalnia.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;mapa jako std::vector&amp;lt;&amp;gt; z użyciem pary&amp;lt;enum,unit*&amp;gt; powinno chulać.&lt;/div&gt;" style="text;html=1;strokeColor=#B09500;fillColor=#e3c800;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#000000;" parent="1" vertex="1">
-                    <mxGeometry x="-1050" y="850" width="220" height="190" as="geometry"/>
+                    <mxGeometry x="-1300" y="480" width="220" height="190" as="geometry"/>
                 </mxCell>
                 <mxCell id="180" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;endArrow=none;endFill=0;elbow=vertical;" parent="1" source="179" target="177" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -279,6 +279,35 @@
                 </mxCell>
                 <mxCell id="192" value="Kazda z tych klas ma pola:&lt;br&gt;&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _default_stamina;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _speed;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _cost;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _attack_range;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _building_time;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;uzupełnione odpowiednimi wartościami&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;z tabeli JEDNOSTKI&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="-470" y="32" width="240" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="194" value="enumt Type_of_unit" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="-50" width="140" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="195" value="KNIGHT,&#10;SWORDSMAN,&#10;ARCHER,&#10;PIKEMAN,&#10;CATAPULT,&#10;RAM,&#10;WORKER,&#10;BASE" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="194">
+                    <mxGeometry y="26" width="140" height="124" as="geometry"/>
+                </mxCell>
+                <mxCell id="198" style="edgeStyle=none;html=1;" edge="1" parent="1" source="195" target="53">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="200" value="enumt Ownership" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="114" width="140" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="201" value="MINE,&#10;ENEMIES" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="200">
+                    <mxGeometry y="26" width="140" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="202" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.077;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="201" target="189">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="110" y="199" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="209" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="204" target="113">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="204" value="Map_filed" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                    <mxGeometry x="-1140" y="890" width="140" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="205" value="# std::pair&lt;Field,Uniu*&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="204">
+                    <mxGeometry y="26" width="140" height="26" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
