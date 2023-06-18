@@ -1,12 +1,13 @@
 #include "Base.hpp"
+/**
+ * @brief Construct a new Base:: Base object
+ * 
+ */
+Base::Base(Ownership _ownership):
+           Unit(_default_stamina, _speed, _cost, _attack_range, _building_time, _unit, _ownership){};
 
-Base::Base(int _stamina, 
-           int _speed, 
-           int _cost, 
-           int _attack_range, 
-           int _building_time):
-           
-           Unit(_stamina, _speed, _cost, _attack_range, _building_time){};
-
-
+/**
+ * @brief Destroy the Base:: Base object
+ * 
+ */
 Base::~Base(){};
