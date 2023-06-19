@@ -25,10 +25,10 @@
                 <mxCell id="157" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="51" vertex="1">
                     <mxGeometry y="156" width="190" height="8" as="geometry"/>
                 </mxCell>
-                <mxCell id="188" value="+Unit(..,)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="51">
+                <mxCell id="188" value="+Unit(..,)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="51" vertex="1">
                     <mxGeometry y="164" width="190" height="26" as="geometry"/>
                 </mxCell>
-                <mxCell id="189" value="+~Unit()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="51">
+                <mxCell id="189" value="+~Unit()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="51" vertex="1">
                     <mxGeometry y="190" width="190" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="57" value="+ virtual void  move()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="51" vertex="1">
@@ -37,7 +37,7 @@
                 <mxCell id="56" value="+ virual void attack()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="51" vertex="1">
                     <mxGeometry y="242" width="190" height="26" as="geometry"/>
                 </mxCell>
-                <mxCell id="190" value="+ [getters and setters for all fileds]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="51">
+                <mxCell id="190" value="+ [getters and setters for all fileds]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="51" vertex="1">
                     <mxGeometry y="268" width="190" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="60" value="Knight" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" parent="1" vertex="1">
@@ -91,10 +91,10 @@
                     <mxGeometry y="26" width="160" height="8" as="geometry"/>
                 </mxCell>
                 <mxCell id="113" value="Map" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" parent="1" vertex="1">
-                    <mxGeometry x="-860" y="890" width="350" height="52" as="geometry"/>
+                    <mxGeometry x="-750" y="898" width="100" height="52" as="geometry"/>
                 </mxCell>
-                <mxCell id="115" value="-std::vector&lt;std::vector&lt;std::pair&lt;Field,std::vector&lt;Unit*&gt;&gt;&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="113" vertex="1">
-                    <mxGeometry y="26" width="350" height="26" as="geometry"/>
+                <mxCell id="115" value="Map_table map" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="113" vertex="1">
+                    <mxGeometry y="26" width="100" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="121" value="Status" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" parent="1" vertex="1">
                     <mxGeometry x="-470" y="890" width="160" height="52" as="geometry"/>
@@ -198,13 +198,13 @@
                 <mxCell id="179" value="Tworzyć osobne listy (mapy??) jednostek naszych i enemy?&amp;nbsp;&lt;br&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#006EAF;fillColor=#1ba1e2;fontColor=#ffffff;" parent="1" vertex="1">
                     <mxGeometry x="440" y="808" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="194" value="enumt Type_of_unit" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                <mxCell id="194" value="enumt Type_of_unit" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
                     <mxGeometry x="330" y="-50" width="140" height="150" as="geometry"/>
                 </mxCell>
-                <mxCell id="195" value="KNIGHT,&#10;SWORDSMAN,&#10;ARCHER,&#10;PIKEMAN,&#10;CATAPULT,&#10;RAM,&#10;WORKER,&#10;BASE" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="194">
+                <mxCell id="195" value="KNIGHT,&#10;SWORDSMAN,&#10;ARCHER,&#10;PIKEMAN,&#10;CATAPULT,&#10;RAM,&#10;WORKER,&#10;BASE" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="194" vertex="1">
                     <mxGeometry y="26" width="140" height="124" as="geometry"/>
                 </mxCell>
-                <mxCell id="191" value="" style="group" connectable="0" vertex="1" parent="1">
+                <mxCell id="191" value="" style="group" parent="1" connectable="0" vertex="1">
                     <mxGeometry x="-570" y="340" width="1200" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="97" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;entryX=0.464;entryY=1.022;entryDx=0;entryDy=0;entryPerimeter=0;" parent="191" target="190" edge="1">
@@ -278,38 +278,52 @@
                         <Array as="points"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="198" style="edgeStyle=none;html=1;" edge="1" parent="1" source="195" target="53">
+                <mxCell id="198" style="edgeStyle=none;html=1;" parent="1" source="195" target="53" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="193" style="edgeStyle=none;html=1;" edge="1" parent="1" source="192">
+                <mxCell id="193" style="edgeStyle=none;html=1;" parent="1" source="192" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="-350" y="340" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="200" value="enumt Ownership" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                <mxCell id="200" value="enumt Ownership" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
                     <mxGeometry x="330" y="114" width="140" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="201" value="MINE,&#10;ENEMIES" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="200">
+                <mxCell id="201" value="MINE,&#10;ENEMIES" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="200" vertex="1">
                     <mxGeometry y="26" width="140" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="192" value="Kazda z tych klas ma pola:&lt;br&gt;&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _default_stamina;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _speed;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _cost;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _attack_range;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _building_time;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;uzupełnione odpowiednimi wartościami&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;z tabeli JEDNOSTKI&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="192" value="Kazda z tych klas ma pola:&lt;br&gt;&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _default_stamina;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _speed;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _cost;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _attack_range;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;static constexpr int _building_time;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;uzupełnione odpowiednimi wartościami&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;z tabeli JEDNOSTKI&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="-470" y="32" width="240" height="170" as="geometry"/>
                 </mxCell>
-                <mxCell id="202" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.077;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="201" target="189">
+                <mxCell id="202" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.077;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="201" target="189" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="110" y="199" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="209" style="edgeStyle=none;html=1;exitX=1.025;exitY=1.048;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" target="113">
+                <mxCell id="209" style="edgeStyle=none;html=1;exitX=1.025;exitY=1.048;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" target="113" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="-976.5" y="917.248" as="sourcePoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="212" value="Enum Map_field" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-                    <mxGeometry x="-1120" y="881" width="140" height="70" as="geometry"/>
+                <mxCell id="212" value="Enum Map_field" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
+                    <mxGeometry x="-1120" y="860" width="140" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="214" value="OBSTACLE,&#10;FREE" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="212">
-                    <mxGeometry y="26" width="140" height="44" as="geometry"/>
+                <mxCell id="214" value="OBSTACLE,&#10;FREE,&#10;MINE" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="212" vertex="1">
+                    <mxGeometry y="26" width="140" height="64" as="geometry"/>
+                </mxCell>
+                <mxCell id="217" style="edgeStyle=none;html=1;" edge="1" parent="1" source="216">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-690" y="850" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="216" value="&amp;nbsp;Tutaj dziedziczenie chyna nie ok, trzba zastopsować inne techini&lt;br&gt;1. Metody statyczne do odczytywania plików brzmi sawet spoko.&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="-960" y="550" width="200" height="135" as="geometry"/>
+                </mxCell>
+                <mxCell id="221" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="220" target="113">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="220" value="using Map_table = std::vector&amp;lt;std::vector&amp;lt;std::pair&amp;lt;Map_field, std::vector&amp;lt;Unit*&amp;gt;&amp;gt;&amp;gt;&amp;gt;;" style="html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-1400" y="790" width="500" height="50" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
