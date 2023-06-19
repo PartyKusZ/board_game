@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="IRDZw3fAhUUEOGb23K9v" name="Page-1">
-        <mxGraphModel dx="2913" dy="1291" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="2986" dy="1157" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -97,7 +97,7 @@
                     <mxGeometry y="26" width="100" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="121" value="Status" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" parent="1" vertex="1">
-                    <mxGeometry x="-470" y="890" width="160" height="52" as="geometry"/>
+                    <mxGeometry x="-620" y="898" width="160" height="52" as="geometry"/>
                 </mxCell>
                 <mxCell id="122" value="coś z tym mądrego zrobić" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="121" vertex="1">
                     <mxGeometry y="26" width="160" height="26" as="geometry"/>
@@ -115,52 +115,16 @@
                     <mxGeometry y="78" width="140" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="129" value="File_parser" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" parent="1" vertex="1">
-                    <mxGeometry x="-660" y="644" width="235" height="164" as="geometry"/>
-                </mxCell>
-                <mxCell id="131" value="# std:: ifstream file" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="129" vertex="1">
-                    <mxGeometry y="26" width="235" height="26" as="geometry"/>
-                </mxCell>
-                <mxCell id="132" value="# std::string file_content" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="129" vertex="1">
-                    <mxGeometry y="52" width="235" height="26" as="geometry"/>
-                </mxCell>
-                <mxCell id="156" value="# std::vector&lt;std::string&gt;  parsed_contetnt" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="129" vertex="1">
-                    <mxGeometry y="78" width="235" height="26" as="geometry"/>
+                    <mxGeometry x="-825" y="620" width="250" height="86" as="geometry"/>
                 </mxCell>
                 <mxCell id="158" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="129" vertex="1">
-                    <mxGeometry y="104" width="235" height="8" as="geometry"/>
+                    <mxGeometry y="26" width="250" height="8" as="geometry"/>
                 </mxCell>
-                <mxCell id="146" value="# virtual void pase_file()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="129" vertex="1">
-                    <mxGeometry y="112" width="235" height="26" as="geometry"/>
+                <mxCell id="140" value="+ static Map_table read_map_file()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="129" vertex="1">
+                    <mxGeometry y="34" width="250" height="26" as="geometry"/>
                 </mxCell>
-                <mxCell id="140" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="129" vertex="1">
-                    <mxGeometry y="138" width="235" height="26" as="geometry"/>
-                </mxCell>
-                <mxCell id="145" value="" style="group" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="-714" y="850" width="324" as="geometry"/>
-                </mxCell>
-                <mxCell id="135" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;elbow=vertical;" parent="145" target="129" edge="1">
-                    <mxGeometry width="160" relative="1" as="geometry">
-                        <mxPoint x="174" as="sourcePoint"/>
-                        <mxPoint x="174" y="-50" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="137" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=none;endFill=0;elbow=vertical;exitX=0.403;exitY=-0.025;exitDx=0;exitDy=0;exitPerimeter=0;" parent="145" source="113" edge="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="134" y="90" as="sourcePoint"/>
-                        <mxPoint x="174" as="targetPoint"/>
-                        <Array as="points">
-                            <mxPoint/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="138" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=none;endFill=0;elbow=vertical;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="145" target="121" edge="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="174" as="sourcePoint"/>
-                        <mxPoint x="444" as="targetPoint"/>
-                        <Array as="points">
-                            <mxPoint x="324"/>
-                        </Array>
-                    </mxGeometry>
+                <mxCell id="222" value="+static [coś dla rozkazów] read_status_file()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="129">
+                    <mxGeometry y="60" width="250" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="159" value="Validator" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeColor=default;" parent="1" vertex="1">
                     <mxGeometry x="-170" y="650" width="140" height="134" as="geometry"/>
@@ -311,18 +275,13 @@
                 <mxCell id="214" value="OBSTACLE,&#10;FREE,&#10;MINE" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="212" vertex="1">
                     <mxGeometry y="26" width="140" height="64" as="geometry"/>
                 </mxCell>
-                <mxCell id="217" style="edgeStyle=none;html=1;" edge="1" parent="1" source="216">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="-690" y="850" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="216" value="&amp;nbsp;Tutaj dziedziczenie chyna nie ok, trzba zastopsować inne techini&lt;br&gt;1. Metody statyczne do odczytywania plików brzmi sawet spoko.&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-                    <mxGeometry x="-960" y="550" width="200" height="135" as="geometry"/>
-                </mxCell>
-                <mxCell id="221" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="220" target="113">
+                <mxCell id="221" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="1" source="220" target="113" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="220" value="using Map_table = std::vector&amp;lt;std::vector&amp;lt;std::pair&amp;lt;Map_field, std::vector&amp;lt;Unit*&amp;gt;&amp;gt;&amp;gt;&amp;gt;;" style="html=1;" vertex="1" parent="1">
+                <mxCell id="223" style="edgeStyle=none;html=1;" edge="1" parent="1" source="220" target="129">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="220" value="using Map_table = std::vector&amp;lt;std::vector&amp;lt;std::pair&amp;lt;Map_field, std::vector&amp;lt;Unit*&amp;gt;&amp;gt;&amp;gt;&amp;gt;;" style="html=1;" parent="1" vertex="1">
                     <mxGeometry x="-1400" y="790" width="500" height="50" as="geometry"/>
                 </mxCell>
             </root>

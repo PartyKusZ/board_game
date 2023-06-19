@@ -39,13 +39,13 @@ class Unit{
          * @brief The virtaula method for determining the movement of a unit 
          * 
          */
-        virtual void move() = 0;
+       // virtual void move() = 0;
 
         /**
          * @brief The virtaula method for determining an unit's attack 
          * 
          */
-        virtual void attack() = 0;
+       // virtual void attack() = 0;
 
         virtual ~Unit();
 };
