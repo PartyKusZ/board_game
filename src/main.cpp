@@ -24,7 +24,7 @@ int main(){
     }
 
 
-    map[0][1].second.push_back(new Ram(Ownership::MINE));
+    map[0][1].units.push_back(new Ram(Ownership::MINE));
     return 0;
 
 }

@@ -47,11 +47,11 @@ Map_table File_parser::read_map_file(const char *filename){
                 break;
 
             case MY_BASE:
-                map_table[i].push_back({Map_field::FREE,{new Base(Ownership::MINE)}});
+                map_table[i].push_back({Map_field::FREE,{}});
                 break;
 
             case ENEMIE_BASE:
-                map_table[i].push_back({Map_field::OBSTACLE,{new Base(Ownership::ENEMIES)}});
+                map_table[i].push_back({Map_field::OBSTACLE,{}});
                 break;
                 
             case MINE:
