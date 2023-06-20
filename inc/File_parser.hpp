@@ -5,7 +5,7 @@
 #include <vector>
 #include <stdexcept> 
 #include "Map_table.hpp"
-#include "Status.hpp"
+#include "Game_state.hpp"
 
 /**
  * @brief Class for reading and parsing MAPA.txt and STATUS.txt
@@ -19,11 +19,14 @@ class File_parser{
         static constexpr int MY_BASE = 1; //!< my base field
         static constexpr int ENEMIE_BASE = 2; //!< enemie base field
         static constexpr int MINE = 6;  //!< mine field
+        static Game_state game_state; //!< representing map
+
+        static void  read_map_file(const char *filename);
+        static void read_status_file(const char *filename);
     public:
     /*Method descriptions can be found in the corresponding source file */
 
         File_parser();
-        static Map_table read_map_file(const char *filename);
-        Status File_parser::read_status_file(const char *filename);
+        static Game_state get_game_state();
         ~File_parser();
 };

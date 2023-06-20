@@ -19,7 +19,7 @@ File_parser::File_parser(){};
  * @return Map_table structure representing the map read from the file.
  */
 
-Map_table File_parser::read_map_file(const char *filename){
+void File_parser::read_map_file(const char *filename){
 
     std::ifstream file(filename);
 
@@ -62,10 +62,10 @@ Map_table File_parser::read_map_file(const char *filename){
             }
         }
     }
-    return map_table;    
+    game_state.map = map_table;
 }
 
-Status File_parser::read_status_file(const char *filename){
+void File_parser::read_status_file(const char *filename){
     
     std::ifstream file(filename);
 
@@ -74,12 +74,12 @@ Status File_parser::read_status_file(const char *filename){
     }
 
     std::string line;
-    Status status;
     std::getline(file, line);
-    status.gold_amount = std::stoi(line);
-    
+    game_state.gold_amount = std::stoi(line);
     while(std::getline(file, line)){
-        
+
+
+
     }
 
 

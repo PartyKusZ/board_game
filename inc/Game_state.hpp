@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
-#include "Unit.hpp"
-class Status{
+#include "Map_table.hpp"
+class Game_state{
     public:
         long gold_amount;
-        std::vector<Unit*> units;
+        Map_table map;
 };

@@ -3,7 +3,7 @@
 int main(){
     Map_table map;
     try{
-         map = File_parser::read_map_file("mapa.txt");
+        //map = File_parser::read_map_file("mapa.txt");
     }
     catch (const std::runtime_error& re) {
         
@@ -24,7 +24,7 @@ int main(){
     }
 
 
-    map[0][1].units.push_back(new Ram(Ownership::MINE));
+    //map[0][1].units.push_back(new Ram(Ownership::MINE));
     return 0;
 
 }
