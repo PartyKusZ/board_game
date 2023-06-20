@@ -64,6 +64,27 @@ Map_table File_parser::read_map_file(const char *filename){
     }
     return map_table;    
 }
+
+Status File_parser::read_status_file(const char *filename){
+    
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+        throw std::runtime_error("Błąd otwarcia pliku!"); // nie udało się otworzyć pliku :(
+    }
+
+    std::string line;
+    Status status;
+    std::getline(file, line);
+    status.gold_amount = std::stoi(line);
+    
+    while(std::getline(file, line)){
+        
+    }
+
+
+}
+
 /**
  * @brief Destroy the File_parser::File_parser object
  * 

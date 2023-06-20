@@ -5,6 +5,7 @@
 #include <vector>
 #include <stdexcept> 
 #include "Map_table.hpp"
+#include "Status.hpp"
 
 /**
  * @brief Class for reading and parsing MAPA.txt and STATUS.txt
@@ -23,5 +24,6 @@ class File_parser{
 
         File_parser();
         static Map_table read_map_file(const char *filename);
+        Status File_parser::read_status_file(const char *filename);
         ~File_parser();
 };
