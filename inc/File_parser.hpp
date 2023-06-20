@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <stdexcept> 
 #include "Map_table.hpp"
 
 /**

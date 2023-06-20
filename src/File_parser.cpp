@@ -17,23 +17,26 @@ File_parser::File_parser(){};
  *
  * @param filename Name of the file containing the map to be read.
  * @return Map_table structure representing the map read from the file.
- * @throws std::invalid_argument If any character in the file does not represent a valid map field.
  */
 
 Map_table File_parser::read_map_file(const char *filename){
 
-    std::ifstream file(filename); // napisać obsługę wyjątku 
-    if (!file) {
-        std::cerr << "Nie można otworzyć pliku!\n";
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+        throw std::runtime_error("Błąd otwarcia pliku!"); // nie udało się otworzyć pliku :(
     }
 
     std::string line;
     Map_table map_table;
     std::string character;
     for(int i = 0; std::getline(file, line); ++i){
+
         map_table.push_back({}); // tworzenie nowego wiersza mapy
+
         for(int j = 0; j < line.size(); ++j){ // uzupełniane wiersza 
-            switch (std::stoi(character = line[j])){
+        
+            switch (std::stoi(std::string(1, line[j]))){ // rzuca wyjątek jeśli character jest niprawidłowy 
 
             case FREE:
                 map_table[i].push_back({Map_field::FREE,{}});
