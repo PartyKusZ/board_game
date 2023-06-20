@@ -19,7 +19,7 @@ class Archer: public Unit{
     public:
     /*Method descriptions can be found in the corresponding source file */
 
-        Archer(int _stamina, Ownership _ownership);
-        Archer(Ownership _ownership);
+        Archer(int _stamina, int _id, Ownership _ownership);
+        Archer(int _id, Ownership _ownership);
         ~Archer();
 };
