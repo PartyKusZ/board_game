@@ -15,6 +15,7 @@ Unit::Unit(int _stamina,
            int _cost, 
            int _attack_range, 
            int _building_time,
+           int _id,
            Type_of_unit _type_of_unit,
            Ownership _ownership):
 
@@ -23,6 +24,7 @@ Unit::Unit(int _stamina,
             cost(_cost),
             attack_range(_attack_range),
             building_time(_building_time),
+            id(_id),
             type_of_unit(_type_of_unit),
             ownership(_ownership){}
 
@@ -104,6 +106,14 @@ Unit::Unit(int _stamina,
  */
   void Unit::set_building_time(int value){
     building_time = value;
+}
+/**
+ * @brief Returns the unit's id
+ * 
+ * @return int id
+ */
+int Unit::get_id() const{
+  return id;
 }
 
 /**
