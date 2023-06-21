@@ -20,7 +20,7 @@ class Base: public Unit{
     public:
     /*Method descriptions can be found in the corresponding source file */
 
-        Base(int _id, Ownership _ownership, Type_of_unit _unit_under_construction);
-        Base(int _id, Ownership _ownership);
+        Base(int _stamina, int _id, Ownership _ownership, Type_of_unit _unit_under_construction);
+        Base(int _stamina, int _id, Ownership _ownership);
         ~Base();
 };

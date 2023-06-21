@@ -24,11 +24,12 @@ class File_parser{
         static void  read_map_file(const char *filename);
         static void read_status_file(const char *filename);
         static std::vector<std::string> split_by_space(const std::string &string);
+        static bool is_a_number(const std::string &string);
         static void parse_status(std::vector<std::string> split_line);
     public:
     /*Method descriptions can be found in the corresponding source file */
 
         File_parser();
-        static Game_state get_game_state();
+        static Game_state get_game_state(const char *map_filename,const char *status_filename);
         ~File_parser();
 };

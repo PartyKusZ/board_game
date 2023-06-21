@@ -1,9 +1,10 @@
 #include "File_parser.hpp"
-#include "Map_table.hpp"
+#include "Game_state.hpp"
 int main(){
-    Map_table map;
+    Game_state state;
     try{
-        //map = File_parser::read_map_file("mapa.txt");
+        state = File_parser::get_game_state("mapa.txt","state.txt");
+        
     }
     catch (const std::runtime_error& re) {
         
@@ -24,7 +25,7 @@ int main(){
     }
 
 
-    //map[0][1].units.push_back(new Ram(Ownership::MINE));
+    
     return 0;
 
 }
