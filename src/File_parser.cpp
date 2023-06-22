@@ -66,7 +66,7 @@ void File_parser::read_map_file(const char *filename){
     Map_table map_table;
     std::string character;
     for(int i = 0; std::getline(file, line); ++i){
-        if(line != ""){
+        if(line != ""){ // protection against reading a empty line 
 
             map_table.push_back({}); // creating a new row of map 
 
@@ -99,12 +99,17 @@ void File_parser::read_map_file(const char *filename){
             }   
           }
         }else{
-            --i;
+            --i;    //reducing the index by an empty line
         }
     }
     game_state.map = map_table; // writnig map to game_state object
 }
 
+/**
+ * @brief Parses a line from a status file and updates the game state.
+ *
+ * @param split_line A vector of strings containing the split line from the status file.
+ */
 
 void File_parser::parse_status(std::vector<std::string> split_line){
     int id;
@@ -113,58 +118,67 @@ void File_parser::parse_status(std::vector<std::string> split_line){
     int stamina;
 
     Ownership ownership;
-
-    if(split_line[0] == "P"){
+    if(split_line.size() > 1 && split_line[0] != ""){ // protection against reading a empty line 
+        if(split_line[0] == "P"){
         ownership = Ownership::MINE;
-    }else if(split_line[0] == "E"){
-        ownership = Ownership::ENEMIES; 
-    }
-    id      = std::stoi(split_line[2]); // id of current unit 
-    x_coord = std::stoi(split_line[3]); // x coord of currnet unit 
-    y_coord = std::stoi(split_line[4]); // y coord of current unit
-    stamina = std::stoi(split_line[5]); // stamina of current unit
+        }else if(split_line[0] == "E"){
+            ownership = Ownership::ENEMIES; 
+        }
+        id      = std::stoi(split_line[2]); // id of current unit 
+        x_coord = std::stoi(split_line[3]); // x coord of currnet unit 
+        y_coord = std::stoi(split_line[4]); // y coord of current unit
+        stamina = std::stoi(split_line[5]); // stamina of current unit
 
-    // this block of code checks what types of units are on the field and creates their objects on the map
+        // this block of code checks what types of units are on the field and creates their objects on the map
 
-    if      (split_line[1] == "K"){
-        game_state.map[y_coord][x_coord].units.push_back(new Knight(stamina,id,ownership));
-    }else if(split_line[1] == "S"){
-        game_state.map[y_coord][x_coord].units.push_back(new Swordsman(stamina,id,ownership));
-    }else if(split_line[1] == "A"){
-        game_state.map[y_coord][x_coord].units.push_back(new Archer(stamina,id,ownership));
-    }else if(split_line[1] == "P"){
-        game_state.map[y_coord][x_coord].units.push_back(new Pikeman(stamina,id,ownership));
-    }else if(split_line[1] == "C"){
-        game_state.map[y_coord][x_coord].units.push_back(new Catapult(stamina,id,ownership));   
-    }else if(split_line[1] == "R"){
-        game_state.map[y_coord][x_coord].units.push_back(new Ram(stamina,id,ownership));
-    }else if(split_line[1] == "W"){
-        game_state.map[y_coord][x_coord].units.push_back(new Worker(stamina,id,ownership));
+        if      (split_line[1] == "K"){
+            game_state.map[y_coord][x_coord].units.push_back(new Knight(stamina,id,ownership));
+        }else if(split_line[1] == "S"){
+            game_state.map[y_coord][x_coord].units.push_back(new Swordsman(stamina,id,ownership));
+        }else if(split_line[1] == "A"){
+            game_state.map[y_coord][x_coord].units.push_back(new Archer(stamina,id,ownership));
+        }else if(split_line[1] == "P"){
+            game_state.map[y_coord][x_coord].units.push_back(new Pikeman(stamina,id,ownership));
+        }else if(split_line[1] == "C"){
+            game_state.map[y_coord][x_coord].units.push_back(new Catapult(stamina,id,ownership));   
+        }else if(split_line[1] == "R"){
+            game_state.map[y_coord][x_coord].units.push_back(new Ram(stamina,id,ownership));
+        }else if(split_line[1] == "W"){
+            game_state.map[y_coord][x_coord].units.push_back(new Worker(stamina,id,ownership));
 
-    // When creating a base, check if the base is in 
-    // the process of prduction of a unit and if so, create a base with such a unit.
+        // When creating a base, check if the base is in 
+        // the process of prduction of a unit and if so, create a base with such a unit.
 
-    }else if(split_line[1] == "B"){
-        if(is_a_number(split_line[6])){
-            game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership));
+        }else if(split_line[1] == "B"){
+            if(is_a_number(split_line[6])){
+                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership));
 
-        }else if(split_line[6] == "K"){
-            game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::KNIGHT));
-        }else if(split_line[6] == "S"){
-            game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::SWORDSMAN));
-        }else if(split_line[6] == "A"){
-            game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::ARCHER));
-        }else if(split_line[6] == "P"){
-            game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::PIKEMAN));
-        }else if(split_line[6] == "C"){
-            game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::CATAPULT));
-        }else if(split_line[6] == "R"){
-            game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::RAM));
-        }else if(split_line[6] == "W"){
-            game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::WORKER));
+            }else if(split_line[6] == "K"){
+                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::KNIGHT));
+            }else if(split_line[6] == "S"){
+                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::SWORDSMAN));
+            }else if(split_line[6] == "A"){
+                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::ARCHER));
+            }else if(split_line[6] == "P"){
+                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::PIKEMAN));
+            }else if(split_line[6] == "C"){
+                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::CATAPULT));
+            }else if(split_line[6] == "R"){
+                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::RAM));
+            }else if(split_line[6] == "W"){
+                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::WORKER));
+            }
         }
     }
+    
 }
+
+/**
+ * @brief Reads a status file to update the game state.
+ *
+ * @param filename Name of the status file.
+ * @throws std::runtime_error If the file cannot be opened.
+ */
 
 void File_parser::read_status_file(const char *filename){
     
