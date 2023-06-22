@@ -66,35 +66,40 @@ void File_parser::read_map_file(const char *filename){
     Map_table map_table;
     std::string character;
     for(int i = 0; std::getline(file, line); ++i){
+        if(line != ""){
 
-        map_table.push_back({}); // creating a new row of map 
+            map_table.push_back({}); // creating a new row of map 
 
-        for(int j = 0; j < line.size(); ++j){ // loop moving through the columns, it means through each char
-        
-            switch (std::stoi(std::string(1, line[j]))){ // converting char to number 
+            for(int j = 0; j < line.size(); ++j){ // loop moving through the columns, it means through each char
+            
+                switch (std::stoi(std::string(1, line[j]))){ // converting char to number 
 
-            case FREE:
-                map_table[i].push_back({Map_field::FREE,{}});
-                break;
+                case FREE:
+                    map_table[i].push_back({Map_field::FREE,{}});
+                    break;
 
-            case OBSTACLE:
-                map_table[i].push_back({Map_field::OBSTACLE,{}});
-                break;
+                case OBSTACLE:
+                    map_table[i].push_back({Map_field::OBSTACLE,{}});
+                    break;
 
-            case MY_BASE:
-                map_table[i].push_back({Map_field::FREE,{}});
-                break;
+                case MY_BASE:
+                    map_table[i].push_back({Map_field::FREE,{}});
+                    break;
 
-            case ENEMIE_BASE:
-                map_table[i].push_back({Map_field::OBSTACLE,{}});
-                break;
+                case ENEMIE_BASE:
+                    map_table[i].push_back({Map_field::OBSTACLE,{}});
+                    break;
+                    
+                case MINE:
+                    map_table[i].push_back({Map_field::FREE,{}});
+                    break;
+                default:
+                    break;
                 
-            case MINE:
-                map_table[i].push_back({Map_field::FREE,{}});
-                break;
-            default:
-                break;
-            }
+            }   
+          }
+        }else{
+            --i;
         }
     }
     game_state.map = map_table; // writnig map to game_state object

@@ -3,7 +3,7 @@
 int main(){
     Game_state state;
     try{
-        state = File_parser::get_game_state("mapa.txt","state.txt");
+        state = File_parser::get_game_state("maps_and_status/map_1.txt","maps_and_status/state.txt");
         
     }
     catch (const std::runtime_error& re) {
