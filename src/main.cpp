@@ -24,6 +24,18 @@ int main(){
 
     }
 
+    Coordinartes xy;
+    auto base= state.find_base(Ownership::MINE);
+    xy = state.get_coordinate_by_id(base);
+    std::cout << "x: " << xy.x << std::endl;
+    std::cout << "y: " << xy.y << std::endl;
+
+    auto units = state.find_all_units(Ownership::ENEMIES);
+    units.front();
+
+    xy = state.get_coordinate_by_id(units.front());
+
+
 
     
     return 0;
