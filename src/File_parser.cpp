@@ -8,7 +8,12 @@ Game_state File_parser::game_state;
  */
 File_parser::File_parser(){};
 
-
+/**
+ * @brief method that splits the string into substrings by space 
+ * 
+ * @param text string to be split 
+ * @return std::vector<std::string> substrings vector
+ */
 std::vector<std::string> File_parser::split_by_space(const std::string& text) {
     std::vector<std::string> fragments;
     std::string::size_type prev_pos = 0;
@@ -40,14 +45,13 @@ bool File_parser::is_a_number(const std::string &string){
 
 
 /**
- * @brief Reads a map from a file and transforms it into a Map_table structure.
+ * @brief Reads a map from a file and transforms it into a Map_table structure and writes from the game_state object containing the map.
  *
  * This function opens a file, given its name as an argument, then reads line by line, 
  * converting each character into a corresponding field on the map (FREE, OBSTACLE, MY_BASE, 
  * ENEMIE_BASE, MINE).
  *
  * @param filename Name of the file containing the map to be read.
- * @return Map_table structure representing the map read from the file.
  */
 
 void File_parser::read_map_file(const char *filename){
@@ -55,7 +59,7 @@ void File_parser::read_map_file(const char *filename){
     std::ifstream file(filename);
 
     if (!file.is_open()) {
-        throw std::runtime_error("Błąd otwarcia pliku!"); // nie udało się otworzyć pliku :(
+        throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file  :(
     }
 
     std::string line;
@@ -63,11 +67,11 @@ void File_parser::read_map_file(const char *filename){
     std::string character;
     for(int i = 0; std::getline(file, line); ++i){
 
-        map_table.push_back({}); // tworzenie nowego wiersza mapy
+        map_table.push_back({}); // creating a new row of map 
 
-        for(int j = 0; j < line.size(); ++j){ // uzupełniane wiersza 
+        for(int j = 0; j < line.size(); ++j){ // loop moving through the columns, it means through each char
         
-            switch (std::stoi(std::string(1, line[j]))){ // rzuca wyjątek jeśli character jest niprawidłowy 
+            switch (std::stoi(std::string(1, line[j]))){ // converting char to number 
 
             case FREE:
                 map_table[i].push_back({Map_field::FREE,{}});
@@ -93,7 +97,7 @@ void File_parser::read_map_file(const char *filename){
             }
         }
     }
-    game_state.map = map_table;
+    game_state.map = map_table; // writnig map to game_state object
 }
 
 
@@ -110,10 +114,12 @@ void File_parser::parse_status(std::vector<std::string> split_line){
     }else if(split_line[0] == "E"){
         ownership = Ownership::ENEMIES; 
     }
-    id = std::stoi(split_line[2]);
-    x_coord = std::stoi(split_line[3]);
-    y_coord = std::stoi(split_line[4]);
-    stamina = std::stoi(split_line[5]);
+    id      = std::stoi(split_line[2]); // id of current unit 
+    x_coord = std::stoi(split_line[3]); // x coord of currnet unit 
+    y_coord = std::stoi(split_line[4]); // y coord of current unit
+    stamina = std::stoi(split_line[5]); // stamina of current unit
+
+    // this block of code checks what types of units are on the field and creates their objects on the map
 
     if      (split_line[1] == "K"){
         game_state.map[y_coord][x_coord].units.push_back(new Knight(stamina,id,ownership));
@@ -129,6 +135,9 @@ void File_parser::parse_status(std::vector<std::string> split_line){
         game_state.map[y_coord][x_coord].units.push_back(new Ram(stamina,id,ownership));
     }else if(split_line[1] == "W"){
         game_state.map[y_coord][x_coord].units.push_back(new Worker(stamina,id,ownership));
+
+    // When creating a base, check if the base is in 
+    // the process of prduction of a unit and if so, create a base with such a unit.
 
     }else if(split_line[1] == "B"){
         if(is_a_number(split_line[6])){
@@ -157,13 +166,13 @@ void File_parser::read_status_file(const char *filename){
     std::ifstream file(filename);
 
     if (!file.is_open()) {
-        throw std::runtime_error("Błąd otwarcia pliku!"); // nie udało się otworzyć pliku :(
+        throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file :(
     }
 
     std::string line;
     std::vector<std::string> split_line;
-    std::getline(file, line);
-    game_state.gold_amount = std::stoi(line);
+    std::getline(file, line); // read line with gold amount
+    game_state.gold_amount = std::stoi(line); // write gold amount to game_state object
     while(std::getline(file, line)){
         split_line = split_by_space(line);
         parse_status(split_line);
@@ -172,6 +181,15 @@ void File_parser::read_status_file(const char *filename){
 
 }
 
+/**
+ * @brief The method calls the methods responsible for the 
+ * interpertation of the map and status files, then returns a game state 
+ * object representing the game state (amount of gold and map) 
+ * 
+ * @param map_filename 
+ * @param status_filename 
+ * @return Game_state 
+ */
 
 Game_state File_parser::get_game_state(const char *map_filename,const char *status_filename){
     read_map_file(map_filename);
