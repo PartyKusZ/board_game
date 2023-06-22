@@ -13,12 +13,13 @@ class Catapult: public Unit{
         static constexpr int _cost = 800;          //!< default cost
         static constexpr int _attack_range = 7;    //!< default attack range
         static constexpr int _building_time = 6;   //!< default building time
+
         static constexpr Type_of_unit _unit = Type_of_unit::CATAPULT; //!< unit type
 
     public:
     /*Method descriptions can be found in the corresponding source file */
 
-        Catapult(int _stamina, Ownership _ownership);
-        Catapult(Ownership _ownership);
+        Catapult(int _stamina, int _id, Ownership _ownership);
+        Catapult(int _id, Ownership _ownership);
         ~Catapult();
 };

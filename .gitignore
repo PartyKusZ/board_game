@@ -1,2 +1,7 @@
 build
 game
+.vscode
+mapa.txt
+doxyfile.doxy
+doc
+state.txt
