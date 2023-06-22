@@ -59,7 +59,7 @@ Coordinartes Game_state::get_coordinate_by_id(Unit *unit){
         for(int j = 0; j < map[i].size(); ++j){
             for(int k = 0; k < map[i][j].units.size(); ++k){
                 if(map[i][j].units[k]->get_id() == unit->get_id()){
-                    return{i,j};
+                    return{j,i};
                 }
             }
         }
