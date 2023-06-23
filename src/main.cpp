@@ -1,5 +1,6 @@
 #include "File_parser.hpp"
 #include "Game_state.hpp"
+#include "Floodfill.hpp"
 
 
 void game_state_tests(Game_state state){
@@ -50,6 +51,7 @@ void game_state_tests(Game_state state){
 
 int main(){
     Game_state state;
+    
     try{
         state = File_parser::get_game_state("maps_and_status/map_1.txt","maps_and_status/state.txt");
         
@@ -71,8 +73,13 @@ int main(){
         return EXIT_FAILURE; // Zwracamy kod błędu
 
     }
+    Floodfill floodfill(state.map);
+    floodfill.floodfill({3,0},{22,9});
+    auto path = floodfill.get_path({3,0},{22,9});
 
-    game_state_tests(state);
+
+   // game_state_tests(state);
+
     
     return 0;
 

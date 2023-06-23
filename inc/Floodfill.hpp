@@ -2,6 +2,7 @@
 #include <vector>
 #include <climits>
 #include <queue>
+#include <algorithm>
 #include "Map_table.hpp"
 #include "Coordinates.hpp"
 /**
@@ -23,11 +24,12 @@ class Floodfill{
         std::vector<std::vector<Floodfill_filed>> map;  
         std::vector<Coordinartes> get_neighbouring_fields(Coordinartes xy);
         bool is_target_neighbour(Coordinartes current, Coordinartes target);
+        Coordinartes neighbour_with_the_smallest_value(Coordinartes xy);
     public:
     /*Method descriptions can be found in the corresponding source file */
 
         Floodfill(const Map_table _map);
         void floodfill(const Coordinartes &from, const Coordinartes &to); 
-        std::vector<Coordinartes> get_path();
+        std::vector<Coordinartes> get_path(const Coordinartes &from, const Coordinartes &to);
         ~Floodfill();
 };

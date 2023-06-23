@@ -29,7 +29,7 @@ Floodfill::Floodfill(const Map_table _map): map_with_units(_map){
         for(int j = 0; j < map_with_units[i].size(); ++j){
             if(map_with_units[i][j].map_filed == Map_field::OBSTACLE){
                 map[i][j].field = Map_field::OBSTACLE;
-            }else if(map_with_units[i][j].map_filed == Map_field::FREE){
+            }else if(map_with_units[i][j].map_filed == Map_field::FREE || map_with_units[i][j].map_filed == Map_field::MINE ){
                 if(!map_with_units[i][j].units.empty()){
                     if(map_with_units[i][j].units.front()->get_ownership() == Ownership::ENEMIES){
                         map[i][j].field = Map_field::OBSTACLE;
@@ -81,27 +81,57 @@ bool Floodfill::is_target_neighbour(Coordinartes current, Coordinartes target){
 
 }
 
+Coordinartes Floodfill::neighbour_with_the_smallest_value(Coordinartes xy){
+    std::vector<int> dx = {-1, -1, -1,  0, 0,  1, 1, 1};
+    std::vector<int> dy = {-1,  0,  1, -1, 1, -1, 0, 1};
+    Coordinartes new_coord;
+    std::vector<Coordinartes>  min_coord;
+    std::vector<int> values;
+    std::vector<Floodfill_filed> neighbours;
+    for(int i = 0; i < 8; ++i) {
+        new_coord.x = xy.x + dx[i];
+        new_coord.y = xy.y + dy[i];
+        if(new_coord.x >= 0 && new_coord.x < map_width && new_coord.y >= 0 && new_coord.y < map_height){
+            values.push_back(map[new_coord.y][new_coord.x].floodfill_value);
+            min_coord.push_back(new_coord);
+        }
+    }
+    auto min_elem = std::min_element(values.begin(),values.end());
+    int index = std::distance(values.begin(),min_elem);
+    return min_coord[index];
+}
+
 
 void Floodfill::floodfill(const Coordinartes &from, const Coordinartes &to){
     int curent_val = 0;
     std::queue<Coordinartes> queue;
-    Coordinartes current_coord;
-
+    Coordinartes current_coord = from;
+    map[current_coord.y][current_coord.x].floodfill_value = curent_val;
     queue.push(from);
     while(!queue.empty()){
         current_coord = queue.front(); 
         queue.pop();
-        map[current_coord.y][current_coord.x].floodfill_value = curent_val++;
+        curent_val = map[current_coord.y][current_coord.x].floodfill_value;
         if(is_target_neighbour(current_coord, to)) {
             break;
         }
         auto neighbours = get_neighbouring_fields(current_coord);
         for(int i = 0; i < neighbours.size(); ++i){
-            map[neighbours[i].y][neighbours[i].x].floodfill_value = curent_val;
+            map[neighbours[i].y][neighbours[i].x].floodfill_value = curent_val + 1;
             queue.push(neighbours[i]);
         }
     }
 } 
 
+std::vector<Coordinartes> Floodfill::get_path(const Coordinartes &from, const Coordinartes &to) {
+    std::vector<Coordinartes> path;
+    Coordinartes current_coord = to;
+    while(map[current_coord.y][current_coord.x].floodfill_value != 0){
+        current_coord = neighbour_with_the_smallest_value(current_coord);
+        path.push_back(current_coord);
+    }
+    std::reverse(path.begin(),path.end());
+    return path;
+}
 
 Floodfill::~Floodfill(){}
