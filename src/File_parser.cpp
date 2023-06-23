@@ -91,7 +91,7 @@ void File_parser::read_map_file(const char *filename){
                     break;
                     
                 case MINE:
-                    map_table[i].push_back({Map_field::FREE,{}});
+                    map_table[i].push_back({Map_field::MINE,{}});
                     break;
                 default:
                     break;
