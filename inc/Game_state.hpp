@@ -17,6 +17,7 @@ class Game_state{
 
         Game_state();
         Unit *find_base(Ownership ownership);
+        std::vector<Coordinartes> find_mines();
         std::vector<Unit *> find_all_units(Ownership ownership);
         int distance_between_units(Unit *unit_1, Unit *unit_2);
         Coordinartes get_coordinate_by_id(Unit *unit);

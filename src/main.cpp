@@ -57,6 +57,14 @@ int main(){
         }
     }
 
+    std::cout << "======================" << std::endl;
+
+    auto mines = state.find_mines();
+    for(auto mine: mines){
+        std::cout << "x: " << mine.x << std::endl;
+        std::cout << "y: " << mine.y << std::endl;
+        std::cout << "------" << std::endl;
+    }
     
 
 

@@ -27,6 +27,21 @@ Unit *Game_state::find_base(Ownership ownership){
     return nullptr;
 }
 
+std::vector<Coordinartes> Game_state::find_mines(){
+    
+    std::vector<Coordinartes> mines;
+    for(int i = 0; i < map.size(); ++i){
+        for(int j = 0; j < map[i].size(); ++j){
+            if(map[i][j].map_filed == Map_field::MINE){
+                mines.push_back({j,i});
+            }
+        }
+    }
+    return mines;
+}
+
+
+
 /**
  * @brief Find all units owned by a given player.
  * @param ownership The ownership for which to find the units.
