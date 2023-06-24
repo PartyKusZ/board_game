@@ -1,9 +1,11 @@
 #include "File_parser.hpp"
 #include "Game_state.hpp"
+#include "Floodfill.hpp"
 
 
 void game_state_tests(Game_state state){
-      Coordinartes xy;
+    /*użyto plików state.txt i map_1.txt*/
+    Coordinartes xy;
     auto base = state.find_base(Ownership::MINE);
     auto enem_base = state.find_base(Ownership::ENEMIES);
     xy = state.get_coordinate_by_id(base);
@@ -45,13 +47,23 @@ void game_state_tests(Game_state state){
         std::cout << "------" << std::endl;
     }
     
+/*ok */
+}
+
+void floodfill_tests(Map_table map){
+    /*użyto plików mapa.txt  i status_only_gold.txt*/
+    Floodfill floodfill(map);
+    floodfill.floodfill({0,0},{31,4});
+    auto path = floodfill.get_path({0,0},{31,4});
+    return; /*ok*/
 
 }
 
 int main(){
     Game_state state;
+    
     try{
-        state = File_parser::get_game_state("maps_and_status/map_1.txt","maps_and_status/state.txt");
+        state = File_parser::get_game_state("maps_and_status/mapa.txt","maps_and_status/state_only_gold.txt");
         
     }
     catch (const std::runtime_error& re) {
@@ -71,8 +83,10 @@ int main(){
         return EXIT_FAILURE; // Zwracamy kod błędu
 
     }
+  
+    floodfill_tests(state.map);
+   // game_state_tests(state);
 
-    game_state_tests(state);
     
     return 0;
 

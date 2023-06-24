@@ -27,6 +27,18 @@ Unit *Game_state::find_base(Ownership ownership){
     return nullptr;
 }
 
+/**
+ * @brief Function to locate all mines in the game map.
+ * 
+ * This function scans the entire game map for mines and stores the coordinates of each mine found
+ * in a vector. The map is a 2D vector of 'Map_field' enum type, which contains 'MINE' as one of its
+ * enum value to represent a mine in the game.
+ *
+ * @return std::vector<Coordinates> A vector containing the coordinates of all mines found in the game map.
+ * Each coordinate is a pair of integers where the first integer is the X coordinate (column index) and 
+ * the second integer is the Y coordinate (row index).
+ */
+
 std::vector<Coordinartes> Game_state::find_mines(){
     
     std::vector<Coordinartes> mines;
