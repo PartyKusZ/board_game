@@ -5,6 +5,19 @@
 #include <algorithm>
 #include "Map_table.hpp"
 #include "Coordinates.hpp"
+
+/**
+ * @brief Represents a map field in the context of the floodfill algorithm. it contains information about which field is occupied or free and the value of floodfill
+ * 
+ */
+
+class Floodfill_filed{
+    public:
+    int floodfill_value = INT_MAX; //!< the floodfill value representing the distance from the start point of the algorithm, by default INT_MAX, indicates that the field has not yet been visited 
+    Map_field field; //!< informs us whether the field is free or occupieds
+};
+
+
 /**
  * @brief Class representing the floodfill algorithm for optimal pathfinding on a map
  * 
@@ -16,12 +29,6 @@
  * value, resulting in the shortest possible path.
  * 
  */
-
-class Floodfill_filed{
-    public:
-    int floodfill_value = INT_MAX;
-    Map_field field;
-};
 
 class Floodfill{
     /*Method descriptions can be found in the corresponding source file */
