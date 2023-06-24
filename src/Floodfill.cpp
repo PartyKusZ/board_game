@@ -44,7 +44,15 @@ Floodfill::Floodfill(const Map_table _map): map_with_units(_map){
     }
 }
 
- 
+/**
+ * @brief Returns a vector of neighbouring Coordinates.
+ *
+ * This function returns all valid neighbouring fields (up, down, left, right and diagonally) for a given
+ * set of Coordinates, considering the boundaries of the game field.
+ * 
+ * @param xy The Coordinates of interest.
+ * @return A vector of Coordinates representing the neighbouring fields.
+ */
 
 std::vector<Coordinartes> Floodfill::get_neighbouring_fields(Coordinartes xy){
     std::vector<int> dx = {-1, -1, -1,  0, 0,  1, 1, 1};
@@ -63,6 +71,18 @@ std::vector<Coordinartes> Floodfill::get_neighbouring_fields(Coordinartes xy){
     return neighbours;
 }
 
+
+/**
+ * @brief Checks if a target Coordinate is a neighbour of the current Coordinate.
+ *
+ * This function checks all valid neighbouring fields (up, down, left, right and diagonally) of the current
+ * Coordinates and returns true if the target Coordinates is a neighbour.
+ * 
+ * @param current The current Coordinates.
+ * @param target The target Coordinates.
+ * @return True if the target is a neighbour of the current Coordinates, false otherwise.
+ */
+
 bool Floodfill::is_target_neighbour(Coordinartes current, Coordinartes target){
     std::vector<int> dx = {-1, -1, -1,  0, 0,  1, 1, 1};
     std::vector<int> dy = {-1,  0,  1, -1, 1, -1, 0, 1};
@@ -80,6 +100,17 @@ bool Floodfill::is_target_neighbour(Coordinartes current, Coordinartes target){
     return false;
 
 }
+
+
+/**
+ * @brief Returns the neighbouring Coordinates with the smallest floodfill value.
+ *
+ * This function checks all valid neighbouring fields (up, down, left, right and diagonally) of the given
+ * Coordinates and returns the Coordinates with the smallest floodfill value.
+ * 
+ * @param xy The Coordinates of interest.
+ * @return The Coordinates of the neighbouring field with the smallest floodfill value.
+ */
 
 Coordinartes Floodfill::neighbour_with_the_smallest_value(Coordinartes xy){
     std::vector<int> dx = {-1, -1, -1,  0, 0,  1, 1, 1};
@@ -100,6 +131,17 @@ Coordinartes Floodfill::neighbour_with_the_smallest_value(Coordinartes xy){
     int index = std::distance(values.begin(),min_elem);
     return min_coord[index];
 }
+
+/**
+ * @brief Conducts the floodfill algorithm from a start Coordinate to a target Coordinate.
+ *
+ * This function implements the floodfill algorithm to mark each accessible field on the game map 
+ * with a value representing its distance from the start Coordinate. The function ends when the 
+ * target Coordinate is reached or the queue of Coordinates is empty (all reachable fields have been visited).
+ * 
+ * @param from The start Coordinates.
+ * @param to The target Coordinates.
+ */
 
 
 void Floodfill::floodfill(const Coordinartes &from, const Coordinartes &to){
@@ -123,6 +165,18 @@ void Floodfill::floodfill(const Coordinartes &from, const Coordinartes &to){
     }
 } 
 
+/**
+ * @brief Returns the shortest path from a start Coordinate to a target Coordinate.
+ *
+ * This function returns a vector of Coordinates which represents the shortest path from a start
+ * Coordinate to a target Coordinate based on the floodfill values assigned to each field.
+ * The path is given as a sequence of Coordinates from the start to the target.
+ * 
+ * @param from The start Coordinates.
+ * @param to The target Coordinates.
+ * @return A vector of Coordinates representing the shortest path from the start to the target.
+ */
+
 std::vector<Coordinartes> Floodfill::get_path(const Coordinartes &from, const Coordinartes &to) {
     std::vector<Coordinartes> path;
     Coordinartes current_coord = to;
@@ -133,5 +187,9 @@ std::vector<Coordinartes> Floodfill::get_path(const Coordinartes &from, const Co
     std::reverse(path.begin(),path.end());
     return path;
 }
-
+  
+/**
+ * @brief Destroy the Floodfill:: Floodfill object
+ * 
+ */
 Floodfill::~Floodfill(){}
