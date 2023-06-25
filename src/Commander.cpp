@@ -171,6 +171,20 @@ int Commander::percent_of_units_around_base(Base *base, std::vector<Unit *> unit
     return sum / units.size();
 }
 
+
+int Commander::percent_of_units_around_mine(Coordinartes mine, std::vector<Unit *> units, int range){
+    // int sum = 0;
+    // for(auto unit: units){
+    //     if(game_state.distance_between_units(mine,unit) <= range){
+    //         ++sum;
+    //     }
+    // }
+    // return sum / units.size();
+}
+
+
+
+
 /**
  * @brief Retrieves the damage value from a given attacker to a given attacked unit type from a predefined table.
  * 
@@ -181,6 +195,24 @@ int Commander::percent_of_units_around_base(Base *base, std::vector<Unit *> unit
 
 int Commander::damage_inflicited(Type_of_unit attacker, Type_of_unit attacked){
     return attack_table[attacker][attacked];
+}
+
+/**
+ * @brief Identifies the enemy units within the attack range of a given unit.
+ * 
+ * @param my_unit The unit from which to measure the attack range.
+ * @param enemies_unit Vector of enemy units to check for being within the attack range.
+ * @return A vector of enemy units that are within the attack range of the given unit.
+ */
+
+std::vector<Unit *> Commander::are_units_in_attack_range(Unit *my_unit, std::vector<Unit *> enemies_unit){
+    std::vector<Unit *> units_in_attack_range;
+    for(auto unit: enemies_unit){
+        if(game_state.distance_between_units(my_unit,unit) <= my_unit->get_attack_range()){
+            units_in_attack_range.push_back(unit);
+        }
+    }
+    return units_in_attack_range;
 }
 
 
