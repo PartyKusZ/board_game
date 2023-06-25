@@ -21,6 +21,8 @@ class Base: public Unit{
     /*Method descriptions can be found in the corresponding source file */
 
         Base(int _stamina, int _id, Ownership _ownership, Type_of_unit _unit_under_construction);
+        bool is_under_construction(){return under_construction;};
+        Type_of_unit what_unit_is_under_construction(){return unit_under_construction;};
         Base(int _stamina, int _id, Ownership _ownership);
         ~Base();
 };

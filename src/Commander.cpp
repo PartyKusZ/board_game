@@ -247,6 +247,70 @@ Ownership Commander::who_will_win_skirmish(Unit *my_unit, Unit *enemy_unit){
 }
 
 
+void Commander::move_unit(Unit *unit, Coordinartes xy){
+    Coordinartes target;
+    std::string order;
+    floodfill.floodfill(game_state.get_coordinate_by_id(unit),xy);
+    auto path = floodfill.get_path(game_state.get_coordinate_by_id(unit),xy);
+    if(floodfill.is_filed_free(xy)){
+        path.push_back(xy);    
+    }
+    if(path.size() > unit->get_speed()){
+        target = path[unit->get_speed()]; 
+    }else{
+        target = path[path.size()-1];
+    }
+    order += std::to_string(unit->get_id()) + " ";
+    order += "M ";
+    order += std::to_string(target.x) + " ";
+    order += std::to_string(target.y);
+    order += "\n";
+    orders.push_back(order);
+}
+
+void Commander::attack_unit(Unit *unit_1, Unit *unit_2){
+
+    std::string order;
+    order += std::to_string(unit_1->get_id()) + " ";
+    order += "A ";
+    order += std::to_string(unit_2->get_id());
+    order += "\n";
+    orders.push_back(order);
+    unit_2->set_stamina(unit_2->get_stamina() - damage_inflicited(unit_1->get_type_of_unit(),unit_2->get_type_of_unit()));
+    if(unit_2->get_stamina() < 1){
+        game_state.remove_unit_by_id(unit_2->get_id());
+        floodfill.update_map(game_state.map);
+    }
+
+}
+
+
+
+void Commander::create_unit(Type_of_unit unit){
+    
+    std::string order;
+    order += std::to_string(my_base->get_id()) + " ";
+    order += "B ";
+    if(unit == Type_of_unit::KNIGHT){
+        order += "K";
+    }else if(unit == Type_of_unit::SWORDSMAN){
+        order += "S";
+    }else if(unit == Type_of_unit::ARCHER){
+        order += "A";
+    }else if(unit == Type_of_unit::PIKEMAN){
+        order += "P";
+    }else if(unit == Type_of_unit::CATAPULT){
+        order += "C";
+    }else if(unit == Type_of_unit::RAM){
+        order += "R";
+    }else if(unit == Type_of_unit::WORKER){
+        order += "W";
+    }
+    order += "\n";
+    orders.push_back(order);
+    
+    
+}
 
 void Commander::give_orders(const char *filename){
    if(my_units.size() == 0){

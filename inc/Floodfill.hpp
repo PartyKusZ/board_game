@@ -41,10 +41,11 @@ class Floodfill{
         std::vector<Coordinartes> get_neighbouring_fields(Coordinartes xy);
         bool is_target_neighbour(Coordinartes current, Coordinartes target);
         Coordinartes neighbour_with_the_smallest_value(Coordinartes xy);
-        void update_map(Map_table _map);
     public:
 
         Floodfill (Map_table _map);
+        void update_map(Map_table _map);
+        bool is_filed_free(Coordinartes xy);
         void floodfill(const Coordinartes &from, const Coordinartes &to); 
         std::vector<Coordinartes> get_path(const Coordinartes &from, const Coordinartes &to);
         ~Floodfill();

@@ -164,6 +164,15 @@ Coordinartes Floodfill::neighbour_with_the_smallest_value(Coordinartes xy){
     return min_coord[index];
 }
 
+bool Floodfill::is_filed_free(Coordinartes xy){
+    if(map[xy.y][xy.x].field == Map_field::FREE){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
 /**
  * @brief Conducts the floodfill algorithm from a start Coordinate to a target Coordinate.
  *
@@ -174,7 +183,6 @@ Coordinartes Floodfill::neighbour_with_the_smallest_value(Coordinartes xy){
  * @param from The start Coordinates.
  * @param to The target Coordinates.
  */
-
 
 void Floodfill::floodfill(const Coordinartes &from, const Coordinartes &to){
     int curent_val = 0;
