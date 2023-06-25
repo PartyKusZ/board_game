@@ -26,7 +26,7 @@ class Commander{
         int average_unit_stamina(std::vector<Unit *> units);
         int average_unit_speed(std::vector<Unit *> units);
         int average_unit_attack_range(std::vector<Unit *> units);
-        int num_of_units_around_base(Base *base, std::vector<Unit *> units, int range);
+        int percent_of_units_around_base(Base *base, std::vector<Unit *> units, int range);
         int damage_inflicited(Type_of_unit attacker, Type_of_unit attacked);
         Ownership who_will_win_skirmish(Unit *my_unit, Unit *enemy_unit);
 

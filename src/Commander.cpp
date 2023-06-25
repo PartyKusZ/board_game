@@ -14,7 +14,6 @@ Commander::Commander(Game_state _state): floodfill(_state.map){
 
     mines = game_state.find_mines();
 
-    attack_table[Type_of_unit::KNIGHT][Type_of_unit::KNIGHT] = 35;
 
    attack_table[Type_of_unit::KNIGHT] = {
         {Type_of_unit::KNIGHT, 35},
@@ -107,6 +106,13 @@ int Commander::base_with_more_stamina(){
     return my_base->get_stamina() - enemy_base->get_stamina();
 }
 
+/**
+ * @brief Calculates the average stamina of the units provided.
+ * 
+ * @param units Vector of units to average the stamina of.
+ * @return The average stamina of the units. 
+ */
+
 int Commander::average_unit_stamina(std::vector<Unit *> units){
     int sum = 0;
     for(auto unit: units){
@@ -114,6 +120,13 @@ int Commander::average_unit_stamina(std::vector<Unit *> units){
     }
     return sum / my_units.size();
 }
+
+/**
+ * @brief Calculates the average speed of the units provided.
+ * 
+ * @param units Vector of units to average the speed of.
+ * @return The average speed of the units.
+ */
 
 int Commander::average_unit_speed(std::vector<Unit *> units){
     int sum = 0;
@@ -123,6 +136,14 @@ int Commander::average_unit_speed(std::vector<Unit *> units){
     return sum / my_units.size();
 }
 
+
+/**
+ * @brief Calculates the average attack range of the units provided.
+ * 
+ * @param units Vector of units to average the attack range of.
+ * @return The average attack range of the units.
+ */
+
 int Commander::average_unit_attack_range(std::vector<Unit *> units){
     int sum = 0;
     for(auto unit: units){
@@ -131,19 +152,45 @@ int Commander::average_unit_attack_range(std::vector<Unit *> units){
     return sum / my_units.size();
 }
 
-int Commander::num_of_units_around_base(Base *base, std::vector<Unit *> units, int range){
+/**
+ * @brief Calculates the percentage of units within a given range of a base.
+ * 
+ * @param base The base to measure distance from.
+ * @param units Vector of units to check the distance of.
+ * @param range The range within which units are considered to be 'around' the base.
+ * @return The percentage of units within the given range of the base.
+ */
+
+int Commander::percent_of_units_around_base(Base *base, std::vector<Unit *> units, int range){
     int sum = 0;
     for(auto unit: units){
         if(game_state.distance_between_units(base,unit) <= range){
             ++sum;
         }
     }
-    return sum;
+    return sum / units.size();
 }
+
+/**
+ * @brief Retrieves the damage value from a given attacker to a given attacked unit type from a predefined table.
+ * 
+ * @param attacker The type of the unit attacking.
+ * @param attacked The type of the unit being attacked.
+ * @return The damage inflicted from the attacker to the attacked.
+ */
 
 int Commander::damage_inflicited(Type_of_unit attacker, Type_of_unit attacked){
     return attack_table[attacker][attacked];
 }
+
+
+/**
+ * @brief Simulates a skirmish between a unit owned by the commander and an enemy unit, and predicts the winner.
+ * 
+ * @param my_unit The unit owned by the commander.
+ * @param enemy_unit The enemy unit.
+ * @return The predicted ownership of the winning unit after the skirmish.
+ */
 
 Ownership Commander::who_will_win_skirmish(Unit *my_unit, Unit *enemy_unit){
     int my_stamina = my_unit->get_stamina();

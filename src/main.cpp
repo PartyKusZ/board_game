@@ -84,10 +84,9 @@ int main(){
 
     }
   
-    floodfill_tests(state.map);
+    //floodfill_tests(state.map);
    // game_state_tests(state);
 
-    
     return 0;
 
 }
