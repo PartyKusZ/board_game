@@ -55,7 +55,7 @@ std::vector<Coordinartes> Game_state::find_mines(){
 
 
 /**
- * @brief Find all units owned by a given player.
+ * @brief Find all units owned by a given player, does not return the base.
  * @param ownership The ownership for which to find the units.
  * @return A vector of pointers to the Units found.
  */
