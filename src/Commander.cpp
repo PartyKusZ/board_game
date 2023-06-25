@@ -4,7 +4,7 @@
  * 
  * @param _state  represents the current state of the game; position of units on the map and amount of gold 
  */
-Commander::Commander(Game_state _state): game_state(_state), floodfill(_state.map){
+Commander::Commander(Game_state _state): game_state(_state){
 
     my_base = dynamic_cast<Base *>(game_state.find_base(Ownership::MINE));
     enemy_base = dynamic_cast<Base *>(game_state.find_base(Ownership::ENEMIES));
@@ -118,6 +118,9 @@ int Commander::average_unit_stamina(std::vector<Unit *> units){
     for(auto unit: units){
         sum += unit->get_stamina();
     }
+    if( my_units.size() == 0){
+        return sum;
+    }
     return sum / my_units.size();
 }
 
@@ -133,6 +136,10 @@ int Commander::average_unit_speed(std::vector<Unit *> units){
     for(auto unit: units){
         sum += unit->get_speed();
     }
+    if( my_units.size() == 0){
+        return sum;
+    }
+
     return sum / my_units.size();
 }
 
@@ -148,6 +155,9 @@ int Commander::average_unit_attack_range(std::vector<Unit *> units){
     int sum = 0;
     for(auto unit: units){
         sum += unit->get_attack_range();
+    }
+    if( my_units.size() == 0){
+        return sum;
     }
     return sum / my_units.size();
 }
@@ -168,6 +178,9 @@ int Commander::percent_of_units_around_base(Base *base, std::vector<Unit *> unit
             ++sum;
         }
     }
+    if( my_units.size() == 0){
+        return sum;
+    }
     return sum / units.size();
 }
 /**
@@ -184,6 +197,9 @@ int Commander::percent_of_units_around_mine(Coordinartes mine, std::vector<Unit 
         if(game_state.distance_between_units(mine,unit) <= range){
             ++sum;
         }
+    }
+    if( my_units.size() == 0){
+        return sum;
     }
     return sum / units.size();
 }
@@ -235,9 +251,9 @@ Ownership Commander::who_will_win_skirmish(Unit *my_unit, Unit *enemy_unit){
     int enemy_stamina = enemy_unit->get_stamina();
     int my_attack = damage_inflicited(my_unit->get_type_of_unit(),enemy_unit->get_type_of_unit());
     int enemy_attack = damage_inflicited(enemy_unit->get_type_of_unit(),my_unit->get_type_of_unit());
-    while(my_stamina > 0 || enemy_stamina > 0){
-        my_stamina -= enemy_attack;
+    while(my_stamina > 0 && enemy_stamina > 0){
         enemy_stamina -= my_attack;
+        my_stamina -= enemy_attack;
     }
     if(my_stamina > enemy_stamina){
         return Ownership::MINE;
@@ -247,7 +263,8 @@ Ownership Commander::who_will_win_skirmish(Unit *my_unit, Unit *enemy_unit){
 }
 
 
-void Commander::move_unit(Unit *unit, Coordinartes xy){
+void Commander::move_unit(Unit *unit, Coordinartes xy, int speed){
+    Floodfill floodfill(game_state.map);
     Coordinartes target;
     std::string order;
     floodfill.floodfill(game_state.get_coordinate_by_id(unit),xy);
@@ -255,17 +272,20 @@ void Commander::move_unit(Unit *unit, Coordinartes xy){
     if(floodfill.is_filed_free(xy)){
         path.push_back(xy);    
     }
-    if(path.size() > unit->get_speed()){
-        target = path[unit->get_speed()]; 
-    }else{
-        target = path[path.size()-1];
+    if(path.size() > 0){
+        if(path.size() > speed){
+            target = path[speed]; 
+        }else{
+            target = path[path.size()-1];
+        }
+        order += std::to_string(unit->get_id()) + " ";
+        order += "M ";
+        order += std::to_string(target.x) + " ";
+        order += std::to_string(target.y);
+        order += "\n";
+        std::lock_guard<std::mutex> guard(mutex);
+        orders.push_back(order);
     }
-    order += std::to_string(unit->get_id()) + " ";
-    order += "M ";
-    order += std::to_string(target.x) + " ";
-    order += std::to_string(target.y);
-    order += "\n";
-    orders.push_back(order);
 }
 
 void Commander::attack_unit(Unit *unit_1, Unit *unit_2){
@@ -279,7 +299,6 @@ void Commander::attack_unit(Unit *unit_1, Unit *unit_2){
     unit_2->set_stamina(unit_2->get_stamina() - damage_inflicited(unit_1->get_type_of_unit(),unit_2->get_type_of_unit()));
     if(unit_2->get_stamina() < 1){
         game_state.remove_unit_by_id(unit_2->get_id());
-        floodfill.update_map(game_state.map);
         enemy_units = game_state.find_all_units(Ownership::ENEMIES);
     }
 
@@ -313,6 +332,16 @@ void Commander::create_unit(Type_of_unit unit){
     
 }
 
+
+int Commander::number_of_units_relatively(std::vector<Unit *> units){
+    
+    if(my_units.size() == 0 && enemy_units.size() == 0){
+        return 0;
+    }else{
+        return units.size() / (my_units.size() + enemy_units.size());
+    }
+}
+
 void Commander::give_orders(const char *filename){
     // move_unit(my_units[0],game_state.get_coordinate_by_id(enemy_base));
     // for(int i = 0; i <  my_units.size(); ++i){
@@ -328,22 +357,141 @@ void Commander::give_orders(const char *filename){
     // for(auto order: orders){
     //     std::cout<<order;
     // }
-   if(my_units.size() == 0){
+   
+    // int bases_stamina_ratio = base_with_more_stamina();
+    // int my_average_stamina = average_unit_stamina(my_units);
+    // int enemies_average_stamina = average_unit_stamina(enemy_units);
+    // int my_average_speed = average_unit_speed(my_units);
+    // int enemies_average_speed = average_unit_speed(enemy_units);
+    // int my_average_attack_range = average_unit_attack_range(my_units);
+    // int enemies_average_attack_range = average_unit_attack_range(enemy_units);
+
+    /**UNITS CREATING*/
+
+    if(my_units.size() == 0 && enemy_units.size() == 0){ // no units on map 
         if(!my_base->is_under_construction()){
             create_unit(Type_of_unit::KNIGHT);
+            game_state.gold_amount -= Knight::_cost;
         }
-        int bases_stamina_ratio = base_with_more_stamina();
-        int my_average_stamina = average_unit_stamina(my_units);
-        int enemies_average_stamina = average_unit_stamina(enemy_units);
-        int my_average_speed = average_unit_speed(my_units);
-        int enemies_average_speed = average_unit_speed(enemy_units);
-        int my_average_attack_range = average_unit_attack_range(my_units);
-        int enemies_average_attack_range = average_unit_attack_range(enemy_units);
-        
+    }else if(game_state.gold_amount < 500){ // if i have no to much gold
+        if(!my_base->is_under_construction()){
+            create_unit(Type_of_unit::WORKER);
+            game_state.gold_amount -= Worker::_cost;
+        }
+
+
+    }else if(average_unit_stamina(my_units) < average_unit_stamina(enemy_units)){ // if enemy has more average stamina
+        if(game_state.gold_amount < 200){
+            if(!my_base->is_under_construction()){
+                create_unit(Type_of_unit::WORKER);
+                game_state.gold_amount -= Worker::_cost;
+            }
+        }else if(game_state.gold_amount < 250){
+            if(!my_base->is_under_construction()){
+                create_unit(Type_of_unit::PIKEMAN);
+                game_state.gold_amount -= Pikeman::_cost;
+            }
+        }else if(game_state.gold_amount < 300){
+            if(!my_base->is_under_construction()){
+                create_unit(Type_of_unit::SWORDSMAN);
+                game_state.gold_amount -= Swordsman::_cost;
+            }
+        }else if(game_state.gold_amount < 400){
+            if(!my_base->is_under_construction()){
+                create_unit(Type_of_unit::ARCHER);
+                game_state.gold_amount -= Archer::_cost;
+            }
+        }else if(game_state.gold_amount < 500){
+            if(!my_base->is_under_construction()){
+                create_unit(Type_of_unit::KNIGHT);
+                game_state.gold_amount -= Knight::_cost;
+            }
+        }else if(game_state.gold_amount < 800){
+            if(!my_base->is_under_construction()){
+                create_unit(Type_of_unit::RAM);
+                game_state.gold_amount -= Ram::_cost;
+            }
+        }else if(game_state.gold_amount >= 800){
+            if(!my_base->is_under_construction()){
+                create_unit(Type_of_unit::CATAPULT);
+                game_state.gold_amount -= Archer::_cost;
+            }
+        }
+    }else{
+        if(game_state.gold_amount >= 800){
+            if(!my_base->is_under_construction()){
+                create_unit(Type_of_unit::CATAPULT);
+                game_state.gold_amount -= Catapult::_cost;
+            }
+        }else if(game_state.gold_amount < 800){
+            if(!my_base->is_under_construction()){
+                create_unit(Type_of_unit::ARCHER);
+                game_state.gold_amount -= Archer::_cost;
+            }
+        }
+    }
+
+
+    /*UNITS MOVMENT AND ATTACK*/
+
+        /*ATTACK*/
+    for(int i = 0; i < my_units.size(); ++i){
+            for(int j = 0; j < enemy_units.size(); ++j){
+                if(game_state.is_enemy_within_attack_range(my_units[i],enemy_units[j])){
+                    if(who_will_win_skirmish(my_units[i],enemy_units[j]) == Ownership::MINE){ // simulating who is likely to win
+                        attack_unit(my_units[i],enemy_units[j]);
+                        my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
+                    }
+                }
+            }
+            
+    }
+        /*MOVE*/
+           
+    if(base_with_more_stamina() - percent_of_units_around_base(my_base,enemy_units, 0.5*(game_state.map.size() + game_state.map[0].size()) / 2) > 0){ // good for me    
+        for(int i = 0; i < my_units.size(); ++i){
+            if(my_units[i]->get_type_of_unit() != Type_of_unit::WORKER){
+                threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));            
+            }else{
+                auto mines = game_state.find_mines();
+                if(mines.size() > 0){
+                    std::vector<int> dist;
+                    for(auto mine: mines){
+                        dist.push_back(game_state.distance_between_units(mine,my_units[i]));
+                    }
+                    auto min_elem = std::min_element(dist.begin(),dist.end());
+                    auto index = std::distance(dist.begin(), min_elem);
+                    threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], mines[index], my_units[i]->get_speed()));            
+
+                }
+                
+            }
+        }
+        for(int i = 0; i < threads.size(); ++i){
+            threads[i].join();
+        }
+    }else{
+        for(int i = 0; i < my_units.size(); ++i){
+            threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(my_base), my_units[i]->get_speed()));            
+        }
+        for(int i = 0; i < threads.size(); ++i){
+            threads[i].join();
+        }
+    }
+
+
+    File_parser::save_orders(filename,orders);
 
 
 
-   }
+for(auto order: orders){
+        std::cout<<order;
+    }
+
+
+
+
+
 }
 
 

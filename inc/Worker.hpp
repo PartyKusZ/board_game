@@ -8,7 +8,7 @@
 
 
 class Worker: public Unit{
-    private:
+    public:
         static constexpr int _default_stamina = 20; //!< default stamina
         static constexpr int _speed = 2;            //!< default speed
         static constexpr int _cost = 100;           //!< default cost
@@ -16,7 +16,7 @@ class Worker: public Unit{
         static constexpr int _building_time = 2;    //!< default building time
 
         static constexpr Type_of_unit _unit = Type_of_unit::WORKER; //!< unit type
-    public:
+    
     /*Method descriptions can be found in the corresponding source file */
 
         Worker(int _stamina, int _id, Ownership _ownership);
