@@ -31,5 +31,6 @@ class File_parser{
 
         File_parser();
         static Game_state get_game_state(const char *map_filename,const char *status_filename);
+        static void save_orders(const char *filename, std::vector<std::string> orders);
         ~File_parser();
 };
