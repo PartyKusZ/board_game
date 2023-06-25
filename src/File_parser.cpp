@@ -216,6 +216,16 @@ Game_state File_parser::get_game_state(const char *map_filename,const char *stat
     return game_state;
 }
 
+void File_parser::save_orders(const char *filename,std::vector<std::string> orders){
+
+    std::ofstream file(filename);
+    if (!file.is_open()) {
+        throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file  :(
+    }
+    for(auto order: orders){
+        file << order;
+    }
+}
 
 /**
  * @brief Destroy the File_parser::File_parser object
