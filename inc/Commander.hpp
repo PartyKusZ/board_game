@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <map>
+#include <iostream>
 #include "Floodfill.hpp"
 #include "Game_state.hpp"
 
@@ -36,7 +37,7 @@ class Commander{
         void move_unit(Unit *unit, Coordinartes xy);
         void attack_unit(Unit *unit_1, Unit *unit_2);
         void create_unit(Type_of_unit unit);
-        
+
 
 
 

@@ -4,7 +4,7 @@
  * 
  * @param _state  represents the current state of the game; position of units on the map and amount of gold 
  */
-Commander::Commander(Game_state _state): floodfill(_state.map){
+Commander::Commander(Game_state _state): game_state(_state), floodfill(_state.map){
 
     my_base = dynamic_cast<Base *>(game_state.find_base(Ownership::MINE));
     enemy_base = dynamic_cast<Base *>(game_state.find_base(Ownership::ENEMIES));
@@ -280,6 +280,7 @@ void Commander::attack_unit(Unit *unit_1, Unit *unit_2){
     if(unit_2->get_stamina() < 1){
         game_state.remove_unit_by_id(unit_2->get_id());
         floodfill.update_map(game_state.map);
+        enemy_units = game_state.find_all_units(Ownership::ENEMIES);
     }
 
 }
@@ -313,8 +314,35 @@ void Commander::create_unit(Type_of_unit unit){
 }
 
 void Commander::give_orders(const char *filename){
+    // move_unit(my_units[0],game_state.get_coordinate_by_id(enemy_base));
+    // for(int i = 0; i <  my_units.size(); ++i){
+    //     for(int j = 0; j < enemy_units.size(); ++j){
+    //         if(game_state.is_enemy_within_attack_range(my_units[i],enemy_units[j])){
+    //             attack_unit(my_units[i],enemy_units[j]);
+    //         }
+    //     }
+    // }
+    // if(!my_base->is_under_construction()){
+    //     create_unit(Type_of_unit::ARCHER);
+    // }
+    // for(auto order: orders){
+    //     std::cout<<order;
+    // }
    if(my_units.size() == 0){
-    
+        if(!my_base->is_under_construction()){
+            create_unit(Type_of_unit::KNIGHT);
+        }
+        int bases_stamina_ratio = base_with_more_stamina();
+        int my_average_stamina = average_unit_stamina(my_units);
+        int enemies_average_stamina = average_unit_stamina(enemy_units);
+        int my_average_speed = average_unit_speed(my_units);
+        int enemies_average_speed = average_unit_speed(enemy_units);
+        int my_average_attack_range = average_unit_attack_range(my_units);
+        int enemies_average_attack_range = average_unit_attack_range(enemy_units);
+        
+
+
+
    }
 }
 

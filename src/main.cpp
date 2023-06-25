@@ -1,6 +1,7 @@
 #include "File_parser.hpp"
 #include "Game_state.hpp"
 #include "Floodfill.hpp"
+#include "Commander.hpp"
 
 
 void game_state_tests(Game_state state){
@@ -63,7 +64,7 @@ int main(){
     Game_state state;
     
     try{
-        state = File_parser::get_game_state("maps_and_status/mapa.txt","maps_and_status/state_only_gold.txt");
+        state = File_parser::get_game_state("maps_and_status/map_1.txt","maps_and_status/state.txt");
         
     }
     catch (const std::runtime_error& re) {
@@ -84,12 +85,14 @@ int main(){
 
     }
   
-    floodfill_tests(state.map);
-    game_state_tests(state);
+    // floodfill_tests(state.map);
+    // game_state_tests(state);
     // std::cout << state.find_all_units(Ownership::ENEMIES).front()->get_id() << std::endl;
     // state.remove_unit_by_id(state.find_all_units(Ownership::ENEMIES).front()->get_id());
     // std::cout << state.find_all_units(Ownership::ENEMIES).front()->get_id() << std::endl;
-
+    Commander commander(state);
+    commander.give_orders("r");
+    
     return 0;
 
 }
