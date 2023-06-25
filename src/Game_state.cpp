@@ -157,7 +157,11 @@ void Game_state::remove_unit_by_id(int id){
         for(int j = 0; j < map[i].size(); ++j){
             for(int k = 0; k < map[i][j].units.size(); ++k){
                 if(map[i][j].units[k]->get_id() == id){
-                    delete map[i][j].units[k];
+                    auto unit = map[i][j].units.begin() + k;
+                    delete *unit;
+                    map[i][j].units.erase(unit);
+                    break;
+                    
                 }
             }
         }
