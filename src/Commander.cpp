@@ -170,16 +170,22 @@ int Commander::percent_of_units_around_base(Base *base, std::vector<Unit *> unit
     }
     return sum / units.size();
 }
-
-
+/**
+ * @brief Calculates the percentage of units within a given range of a mine.
+ * 
+ * @param mine The mine's coordinates to measure distance from.
+ * @param units Vector of units to check the distance of.
+ * @param range The range within which units are considered to be 'around' the mine.
+ * @return The percentage of units within the given range of the mine.
+ */
 int Commander::percent_of_units_around_mine(Coordinartes mine, std::vector<Unit *> units, int range){
-    // int sum = 0;
-    // for(auto unit: units){
-    //     if(game_state.distance_between_units(mine,unit) <= range){
-    //         ++sum;
-    //     }
-    // }
-    // return sum / units.size();
+    int sum = 0;
+    for(auto unit: units){
+        if(game_state.distance_between_units(mine,unit) <= range){
+            ++sum;
+        }
+    }
+    return sum / units.size();
 }
 
 
@@ -239,6 +245,16 @@ Ownership Commander::who_will_win_skirmish(Unit *my_unit, Unit *enemy_unit){
         return Ownership::ENEMIES;
     }
 }
+
+
+
+void Commander::give_orders(const char *filename){
+   if(my_units.size() == 0){
+    
+   }
+}
+
+
 
 /**
  * @brief Destroy the Commander:: Commander object

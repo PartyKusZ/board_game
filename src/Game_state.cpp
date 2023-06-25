@@ -150,6 +150,21 @@ bool Game_state::is_enemy_within_attack_range(Unit *my_unit, Unit *enemy_unit){
     }
 }
 
+
+void Game_state::remove_unit_by_id(int id){
+
+     for(int i = 0; i < map.size(); ++i){
+        for(int j = 0; j < map[i].size(); ++j){
+            for(int k = 0; k < map[i][j].units.size(); ++k){
+                if(map[i][j].units[k]->get_id() == id){
+                    delete map[i][j].units[k];
+                }
+            }
+        }
+    }
+}
+
+
 /**
  * @brief Destroy the Game_state::Game_state object
  * 

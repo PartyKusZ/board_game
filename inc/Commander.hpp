@@ -21,6 +21,7 @@ class Commander{
         std::vector<Unit *> my_units;
         std::vector<Unit *> enemy_units;
         std::vector<Coordinartes> mines;
+        std::vector<std::string> orders;
 
         int base_with_more_stamina();
         int average_unit_stamina(std::vector<Unit *> units);
@@ -32,11 +33,19 @@ class Commander{
         std::vector<Unit *> are_units_in_attack_range(Unit *my_unit, std::vector<Unit *> enemies_unit);
         Ownership who_will_win_skirmish(Unit *my_unit, Unit *enemy_unit);
 
+        void move_unit(Unit *unit, Coordinartes xy);
+        void attack_unit(Unit *unit_1, Unit *unit_2);
+        void create_unit(Type_of_unit unit);
+        
+
+
+
 
 
 
 
     public:
         Commander(Game_state _state);
+        void give_orders(const char *filename);
         ~Commander();
 };
