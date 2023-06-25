@@ -36,14 +36,15 @@ class Floodfill{
     private: 
         int map_width; //!< map width 
         int map_height; //!< map_height
-        const Map_table map_with_units; //!< a map with full information on the state of the game (deployment of units, etc.).
+        Map_table map_with_units; //!< a map with full information on the state of the game (deployment of units, etc.).
         std::vector<std::vector<Floodfill_filed>> map;  //!<  a map showing only which field is accessible to the player's program
         std::vector<Coordinartes> get_neighbouring_fields(Coordinartes xy);
         bool is_target_neighbour(Coordinartes current, Coordinartes target);
         Coordinartes neighbour_with_the_smallest_value(Coordinartes xy);
+        void update_map(Map_table _map);
     public:
 
-        Floodfill(const Map_table _map);
+        Floodfill (Map_table _map);
         void floodfill(const Coordinartes &from, const Coordinartes &to); 
         std::vector<Coordinartes> get_path(const Coordinartes &from, const Coordinartes &to);
         ~Floodfill();
