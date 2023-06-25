@@ -1,8 +1,13 @@
 #include "Commander.hpp"
 /**
- * @brief Construct a new Commander:: Commander object
- * 
- * @param _state  represents the current state of the game; position of units on the map and amount of gold 
+ * @brief Constructor for the Commander class.
+ *
+ * This constructor is responsible for initializing the game state,
+ * populating lists of the player's and enemy's units, assigning the player's 
+ * and enemy's bases, and setting up an attack table for each unit type, indicating 
+ * their attack power against different unit types.
+ *
+ * @param _state The current state of the game.
  */
 Commander::Commander(Game_state _state): game_state(_state){
 
@@ -262,7 +267,20 @@ Ownership Commander::who_will_win_skirmish(Unit *my_unit, Unit *enemy_unit){
     }
 }
 
-
+/**
+ * @brief Moves a given unit to a specified coordinate on the map at a given speed.
+ * 
+ * This function uses the Floodfill algorithm to find the shortest path from 
+ * the unit's current position to the target position. If the target position
+ * is free, it is added to the path. Then, it determines the next target position 
+ * on this path, limited by the unit's speed. A string order to move the unit 
+ * to the target position is constructed and added to the list of orders in a 
+ * thread-safe manner.
+ *
+ * @param unit A pointer to the unit that will be moved.
+ * @param xy The target coordinate on the map.
+ * @param speed The speed of the unit.
+ */
 void Commander::move_unit(Unit *unit, Coordinartes xy, int speed){
     Floodfill floodfill(game_state.map);
     Coordinartes target;
@@ -288,6 +306,19 @@ void Commander::move_unit(Unit *unit, Coordinartes xy, int speed){
     }
 }
 
+/**
+ * @brief Makes one unit attack another.
+ * 
+ * This function creates a string order for one unit to attack another. The order 
+ * string is then added to the list of orders. The attacked unit's stamina is 
+ * reduced according to the damage inflicted by the attacking unit. If the attacked 
+ * unit's stamina falls below 1, it is removed from the game state and the list 
+ * of enemy units is updated.
+ *
+ * @param unit_1 A pointer to the attacking unit.
+ * @param unit_2 A pointer to the unit being attacked.
+ */
+
 void Commander::attack_unit(Unit *unit_1, Unit *unit_2){
 
     std::string order;
@@ -304,7 +335,14 @@ void Commander::attack_unit(Unit *unit_1, Unit *unit_2){
 
 }
 
-
+/**
+ * @brief Creates a new unit of the specified type.
+ * 
+ * This function creates a string order to build a new unit of the specified 
+ * type at the player's base. The order string is then added to the list of orders.
+ *
+ * @param unit The type of the unit to be created.
+ */
 
 void Commander::create_unit(Type_of_unit unit){
     
@@ -331,7 +369,16 @@ void Commander::create_unit(Type_of_unit unit){
     
     
 }
-
+/**
+ * @brief Calculates the number of given units relative to the total number of units.
+ * 
+ * This function returns the number of given units as a proportion of the total 
+ * number of units (both the player's and enemy's units). If there are no units 
+ * in total, it returns 0.
+ *
+ * @param units A vector of pointers to the units.
+ * @return The number of given units relative to the total number of units.
+ */
 
 int Commander::number_of_units_relatively(std::vector<Unit *> units){
     
@@ -342,29 +389,18 @@ int Commander::number_of_units_relatively(std::vector<Unit *> units){
     }
 }
 
+/**
+ * @brief Function to process and issue orders to units based on game state.
+ *
+ * This function analyzes the current game state and makes strategic decisions to control units.
+ * Depending on the game state, it might create new units, move existing ones or order them to attack. 
+ * The issued orders are saved to a file.
+ * 
+ * @param filename The name of the file where the orders will be saved.
+ */
+
 void Commander::give_orders(const char *filename){
-    // move_unit(my_units[0],game_state.get_coordinate_by_id(enemy_base));
-    // for(int i = 0; i <  my_units.size(); ++i){
-    //     for(int j = 0; j < enemy_units.size(); ++j){
-    //         if(game_state.is_enemy_within_attack_range(my_units[i],enemy_units[j])){
-    //             attack_unit(my_units[i],enemy_units[j]);
-    //         }
-    //     }
-    // }
-    // if(!my_base->is_under_construction()){
-    //     create_unit(Type_of_unit::ARCHER);
-    // }
-    // for(auto order: orders){
-    //     std::cout<<order;
-    // }
-   
-    // int bases_stamina_ratio = base_with_more_stamina();
-    // int my_average_stamina = average_unit_stamina(my_units);
-    // int enemies_average_stamina = average_unit_stamina(enemy_units);
-    // int my_average_speed = average_unit_speed(my_units);
-    // int enemies_average_speed = average_unit_speed(enemy_units);
-    // int my_average_attack_range = average_unit_attack_range(my_units);
-    // int enemies_average_attack_range = average_unit_attack_range(enemy_units);
+  
 
     /**UNITS CREATING*/
 
