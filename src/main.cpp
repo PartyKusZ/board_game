@@ -1,3 +1,4 @@
+#include <cstring>
 #include "File_parser.hpp"
 #include "Game_state.hpp"
 #include "Floodfill.hpp"
@@ -62,31 +63,14 @@ void floodfill_tests(Map_table map){
 
 int main(int argc, char** argv){
     Game_state state;
-    if(argv[1] != "mapa.txt" && argv[2] != "status.txt" && argv[3] != "rozkazy.txt"){
-        std::cerr << "Wrong arguments!" << std::endl;
-        return EXIT_FAILURE;
-    }
-    try{
-        state = File_parser::get_game_state(argv[1],argv[2]);
-        
-    }
-    catch (const std::runtime_error& re) {
-        
-        std::cerr << "File_parser::read_map_file(): " << re.what() << '\n';
-        return EXIT_FAILURE; // Zwracamy kod błędu
-    }
+    // if(strcmp(argv[1], "mapa.txt") != 0 || strcmp(argv[2], "status.txt") != 0 || strcmp(argv[3], "rozkazy.txt") != 0){
+    //     std::cout << argv[1] << argv[2] << argv[3] << std::endl;
+    //     std::cerr << "Wrong arguments!\nexpect mapa.txt status.txt rozkazy.txt [t]" << std::endl;
 
-    catch (const std::invalid_argument& ia){
-        std::cerr << "File_parser::read_map_file(): Invalid argument: " << ia.what() << '\n';
-        return EXIT_FAILURE; // Zwracamy kod błędu
-
-    }
-
-    catch (const std::out_of_range& oor) {
-        std::cerr << "Out of range: " << oor.what() << '\n';
-        return EXIT_FAILURE; // Zwracamy kod błędu
-
-    }
+    //     return EXIT_FAILURE;
+    // }
+   
+    state = File_parser::get_game_state("mapa.txt","status.txt");
   
     // floodfill_tests(state.map);
     // game_state_tests(state);
@@ -94,7 +78,7 @@ int main(int argc, char** argv){
     // state.remove_unit_by_id(state.find_all_units(Ownership::ENEMIES).front()->get_id());
     // std::cout << state.find_all_units(Ownership::ENEMIES).front()->get_id() << std::endl;
     Commander commander(state);
-    commander.give_orders(argv[3]);
+    commander.give_orders("rozkazy.txt");
     
     return 0;
 
