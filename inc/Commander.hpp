@@ -4,6 +4,7 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
+#include <stdexcept> 
 #include "Floodfill.hpp"
 #include "Game_state.hpp"
 #include "File_parser.hpp"
