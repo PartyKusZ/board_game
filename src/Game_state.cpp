@@ -55,7 +55,7 @@ std::vector<Coordinartes> Game_state::find_mines(){
 
 
 /**
- * @brief Find all units owned by a given player.
+ * @brief Find all units owned by a given player, does not return the base.
  * @param ownership The ownership for which to find the units.
  * @return A vector of pointers to the Units found.
  */
@@ -109,6 +109,31 @@ int Game_state::distance_between_units(Unit *unit_1, Unit *unit_2){
 }
 
 /**
+ * @brief Calculate the  distance between two units.
+ * @param unit_1 The first unit.
+ * @param unit_2 The second unit.
+ * @return The  distance between the units.
+ */
+int Game_state::distance_between_units(Coordinartes cord_unit_1, Unit *unit_2){
+
+    Coordinartes cord_unit2;    
+    cord_unit2 = get_coordinate_by_id(unit_2);
+    return std::abs(cord_unit_1.x - cord_unit2.x) + std::abs(cord_unit_1.y - cord_unit2.y);
+
+}
+
+/**
+ * @brief Calculate the  distance between two units.
+ * @param unit_1 The first unit.
+ * @param unit_2 The second unit.
+ * @return The  distance between the units.
+ */
+int Game_state::distance_between_units(Coordinartes cord_unit_1, Coordinartes cord_unit_2){
+
+    return std::abs(cord_unit_1.x - cord_unit_2.x) + std::abs(cord_unit_1.y - cord_unit_2.y);
+}
+
+/**
  * @brief Check if an enemy unit is within attack range of a given unit.
  * @param my_unit The unit to check from.
  * @param enemy_unit The unit to check against.
@@ -124,6 +149,25 @@ bool Game_state::is_enemy_within_attack_range(Unit *my_unit, Unit *enemy_unit){
         return true;
     }
 }
+
+
+void Game_state::remove_unit_by_id(int id){
+
+     for(int i = 0; i < map.size(); ++i){
+        for(int j = 0; j < map[i].size(); ++j){
+            for(int k = 0; k < map[i][j].units.size(); ++k){
+                if(map[i][j].units[k]->get_id() == id){
+                    auto unit = map[i][j].units.begin() + k;
+                    delete *unit;
+                    map[i][j].units.erase(unit);
+                    break;
+                    
+                }
+            }
+        }
+    }
+}
+
 
 /**
  * @brief Destroy the Game_state::Game_state object

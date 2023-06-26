@@ -7,7 +7,7 @@
  */
 
 class Pikeman: public Unit{
-    private:
+    public:
         static constexpr int _default_stamina = 50; //!< default stamina
         static constexpr int _speed = 2;            //!< default speed
         static constexpr int _cost = 200;           //!< default cost
@@ -16,7 +16,7 @@ class Pikeman: public Unit{
         
         static constexpr Type_of_unit _unit = Type_of_unit::PIKEMAN; //!< unit type
 
-    public:
+    
     /*Method descriptions can be found in the corresponding source file */
 
         Pikeman(int _stamina, int _id,  Ownership _ownership);

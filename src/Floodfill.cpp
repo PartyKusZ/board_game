@@ -44,6 +44,38 @@ Floodfill::Floodfill(const Map_table _map): map_with_units(_map){
     }
 }
 
+
+void Floodfill::update_map(Map_table _map){
+    map_with_units = _map;
+    for(int i = 0; i < map.size(); ++i){
+        map[i].clear();
+    }
+    map.clear();
+
+    map_width = map_with_units[0].size();
+    map_height = map_with_units.size();
+    map.resize(map_height,std::vector<Floodfill_filed>(map_width)); // creation of a map containing only 
+                                                                    //information about free and occupied 
+                                                                    //fields on the basis of a map containing all information
+    for(int i = 0; i < map_with_units.size(); ++i){
+        for(int j = 0; j < map_with_units[i].size(); ++j){
+            if(map_with_units[i][j].map_filed == Map_field::OBSTACLE){
+                map[i][j].field = Map_field::OBSTACLE;
+            }else if(map_with_units[i][j].map_filed == Map_field::FREE || map_with_units[i][j].map_filed == Map_field::MINE ){
+                if(!map_with_units[i][j].units.empty()){
+                    if(map_with_units[i][j].units.front()->get_ownership() == Ownership::ENEMIES){
+                        map[i][j].field = Map_field::OBSTACLE;
+                    }else{
+                        map[i][j].field = Map_field::FREE;
+                    }
+                }else{
+                    map[i][j].field = Map_field::FREE;
+                }
+            }
+        } 
+    }
+}
+
 /**
  * @brief Returns a vector of neighbouring Coordinates.
  *
@@ -132,6 +164,15 @@ Coordinartes Floodfill::neighbour_with_the_smallest_value(Coordinartes xy){
     return min_coord[index];
 }
 
+bool Floodfill::is_filed_free(Coordinartes xy){
+    if(map[xy.y][xy.x].field == Map_field::FREE){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
 /**
  * @brief Conducts the floodfill algorithm from a start Coordinate to a target Coordinate.
  *
@@ -142,7 +183,6 @@ Coordinartes Floodfill::neighbour_with_the_smallest_value(Coordinartes xy){
  * @param from The start Coordinates.
  * @param to The target Coordinates.
  */
-
 
 void Floodfill::floodfill(const Coordinartes &from, const Coordinartes &to){
     int curent_val = 0;

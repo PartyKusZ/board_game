@@ -8,7 +8,7 @@
 
 
 class Ram: public Unit{
-    private:
+    public:
         static constexpr int _default_stamina = 90; //!< default stamina
         static constexpr int _speed = 2;            //!< default speed
         static constexpr int _cost = 500;           //!< default cost
@@ -17,7 +17,7 @@ class Ram: public Unit{
         
         static constexpr Type_of_unit _unit = Type_of_unit::RAM; //!< unit type
 
-    public:
+    
     /*Method descriptions can be found in the corresponding source file */
 
         Ram(int _stamina, int _id, Ownership _ownership);

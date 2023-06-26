@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <cmath>
+#include <algorithm>
 #include "Map_table.hpp"
 #include "Coordinates.hpp"
 
@@ -20,7 +21,10 @@ class Game_state{
         std::vector<Coordinartes> find_mines();
         std::vector<Unit *> find_all_units(Ownership ownership);
         int distance_between_units(Unit *unit_1, Unit *unit_2);
+        int distance_between_units(Coordinartes cord_unit_1, Unit *unit_2);
+        int distance_between_units(Coordinartes cord_unit_1, Coordinartes cord_unit_2);
         Coordinartes get_coordinate_by_id(Unit *unit);
         bool is_enemy_within_attack_range(Unit *my_unit, Unit *enemy_unit);
+        void remove_unit_by_id(int id);
         ~Game_state();
 };
