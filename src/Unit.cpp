@@ -1,14 +1,17 @@
 #include "Unit.hpp"
 
 /**
-* @brief Construct a new Unit object
-* 
-* @param _stamina Stamina of unit
-* @param _speed Speed of of unit
-* @param _cost Cost of unit
-* @param _attack_range Attack range of unit
-* @param _building_time Building time of unit
-*/
+ * @brief Construct a new Unit:: Unit object
+ * 
+ * @param _stamina 
+ * @param _speed 
+ * @param _cost 
+ * @param _attack_range 
+ * @param _building_time 
+ * @param _id 
+ * @param _type_of_unit 
+ * @param _ownership 
+ */
 
 Unit::Unit(int _stamina, 
            int _speed, 

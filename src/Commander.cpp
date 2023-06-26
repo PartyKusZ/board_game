@@ -11,8 +11,20 @@
  */
 Commander::Commander(Game_state _state): game_state(_state){
 
-    my_base = dynamic_cast<Base *>(game_state.find_base(Ownership::MINE));
-    enemy_base = dynamic_cast<Base *>(game_state.find_base(Ownership::ENEMIES));
+    try{
+        my_base = dynamic_cast<Base *>(game_state.find_base(Ownership::MINE));
+        if(my_base == nullptr){
+            throw std::invalid_argument("my_base is nullptr");
+        }
+        enemy_base = dynamic_cast<Base *>(game_state.find_base(Ownership::ENEMIES));
+        if(enemy_base == nullptr){
+            throw std::invalid_argument("enemy_base is nullptr");
+        }
+    }
+    catch (const std::invalid_argument& ia){
+        std::cerr << "Commander::Commander(): Invalid argument: " << ia.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
+    }
 
     my_units = game_state.find_all_units(Ownership::MINE);
     enemy_units = game_state.find_all_units(Ownership::ENEMIES);
@@ -329,8 +341,13 @@ void Commander::attack_unit(Unit *unit_1, Unit *unit_2){
     orders.push_back(order);
     unit_2->set_stamina(unit_2->get_stamina() - damage_inflicited(unit_1->get_type_of_unit(),unit_2->get_type_of_unit()));
     if(unit_2->get_stamina() < 1){
-        game_state.remove_unit_by_id(unit_2->get_id());
-        enemy_units = game_state.find_all_units(Ownership::ENEMIES);
+        if(unit_2->get_type_of_unit() == Type_of_unit::BASE){
+            unit_2->set_stamina(0);
+        }else{
+            game_state.remove_unit_by_id(unit_2->get_id());
+            enemy_units = game_state.find_all_units(Ownership::ENEMIES);
+        }
+        
     }
 
 }
@@ -472,23 +489,31 @@ void Commander::give_orders(const char *filename){
 
         /*ATTACK*/
     for(int i = 0; i < my_units.size(); ++i){
-            for(int j = 0; j < enemy_units.size(); ++j){
-                if(game_state.is_enemy_within_attack_range(my_units[i],enemy_units[j])){
-                    if(who_will_win_skirmish(my_units[i],enemy_units[j]) == Ownership::MINE){ // simulating who is likely to win
-                        attack_unit(my_units[i],enemy_units[j]);
-                        my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
-                    }
+        if(game_state.is_enemy_within_attack_range(my_units[i],enemy_base)){
+            if(enemy_base->get_stamina() > 0){
+                attack_unit(my_units[i],enemy_base);
+                my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
+                break;
+            }
+        }
+        for(int j = 0; j < enemy_units.size(); ++j){
+            if(game_state.is_enemy_within_attack_range(my_units[i],enemy_units[j])){
+                if(who_will_win_skirmish(my_units[i],enemy_units[j]) == Ownership::MINE){ // simulating who is likely to win
+                    attack_unit(my_units[i],enemy_units[j]);
+                    my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
                 }
             }
+        }
             
     }
         /*MOVE*/
            
-    if(base_with_more_stamina() - percent_of_units_around_base(my_base,enemy_units, 0.5*(game_state.map.size() + game_state.map[0].size()) / 2) > 0){ // good for me    
+    if(base_with_more_stamina() - percent_of_units_around_base(my_base,enemy_units, 0.5*(game_state.map.size() + game_state.map[0].size()) / 2) > 0){ // good for me, going to attack the base
         for(int i = 0; i < my_units.size(); ++i){
             if(my_units[i]->get_type_of_unit() != Type_of_unit::WORKER){
                 threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));            
-            }else{
+            }else{ 
+                // choose to go to the nearest mine 
                 auto mines = game_state.find_mines();
                 if(mines.size() > 0){
                     std::vector<int> dist;
@@ -499,6 +524,8 @@ void Commander::give_orders(const char *filename){
                     auto index = std::distance(dist.begin(), min_elem);
                     threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], mines[index], my_units[i]->get_speed()));            
 
+                }else{
+                    threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));
                 }
                 
             }
@@ -506,7 +533,7 @@ void Commander::give_orders(const char *filename){
         for(int i = 0; i < threads.size(); ++i){
             threads[i].join();
         }
-    }else{
+    }else{ //unfavourable state of the game for me, I move units back to my base
         for(int i = 0; i < my_units.size(); ++i){
             threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(my_base), my_units[i]->get_speed()));            
         }
@@ -519,15 +546,9 @@ void Commander::give_orders(const char *filename){
     File_parser::save_orders(filename,orders);
 
 
-
 for(auto order: orders){
         std::cout<<order;
     }
-
-
-
-
-
 }
 
 
@@ -537,4 +558,6 @@ for(auto order: orders){
  * 
  */
 
-Commander::~Commander(){}
+Commander::~Commander(){
+    game_state.clear_map();
+}
