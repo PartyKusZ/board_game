@@ -17,16 +17,17 @@ class Commander{
     /*Method descriptions can be found in the corresponding source file */
 
     private:
-        std::mutex mutex;
-        std::vector<std::thread> threads;
-        Game_state game_state; //!< represents the current state of the game; position of units on the map and amount of gold 
-        std::map<Type_of_unit, std::map<Type_of_unit, int>> attack_table; //!<  determines the damage inflicted on unit B by unit A 
-        Base *my_base; //!< my base
-        Base *enemy_base; //!< enemy base
-        std::vector<Unit *> my_units;
-        std::vector<Unit *> enemy_units;
-        std::vector<Coordinartes> mines;
-        std::vector<std::string> orders;
+        std::mutex mutex; //!< Mutex for synchronizing threads.
+        std::vector<std::thread> threads; //!< Vector storing the currently active threads.
+        Game_state game_state; //!< Object representing the current state of the game, such as positions of units on the map and gold quantity.
+        std::map<Type_of_unit, std::map<Type_of_unit, int>> attack_table; //!< Map that determines the damage inflicted on unit B by unit A.
+        Base *my_base; //!< Pointer to the player's base.
+        Base *enemy_base; //!< Pointer to the enemy's base.
+        std::vector<Unit *> my_units; //!< Vector storing pointers to the player's units.
+        std::vector<Unit *> enemy_units; //!< Vector storing pointers to the enemy's units.
+        std::vector<Coordinartes> mines; //!< Vector storing the coordinates of mines.
+        std::vector<std::string> orders; //!< Vector storing issued commands or orders.
+
 
         int base_with_more_stamina();
         int average_unit_stamina(std::vector<Unit *> units);

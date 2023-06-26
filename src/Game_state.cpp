@@ -109,11 +109,12 @@ int Game_state::distance_between_units(Unit *unit_1, Unit *unit_2){
 }
 
 /**
- * @brief Calculate the  distance between two units.
- * @param unit_1 The first unit.
- * @param unit_2 The second unit.
- * @return The  distance between the units.
+ * @brief Calculates  distance between a unit identified by its coordinates and another unit.
+ * @param cord_unit_1 Coordinates of the first unit.
+ * @param unit_2 Pointer to the second unit.
+ * @return The distance between the two units.
  */
+
 int Game_state::distance_between_units(Coordinartes cord_unit_1, Unit *unit_2){
 
     Coordinartes cord_unit2;    
@@ -123,10 +124,10 @@ int Game_state::distance_between_units(Coordinartes cord_unit_1, Unit *unit_2){
 }
 
 /**
- * @brief Calculate the  distance between two units.
- * @param unit_1 The first unit.
- * @param unit_2 The second unit.
- * @return The  distance between the units.
+ * @brief Calculates the  distance between two units, both identified by their coordinates.
+ * @param cord_unit_1 Coordinates of the first unit.
+ * @param cord_unit_2 Coordinates of the second unit.
+ * @return The distance between the two units.
  */
 int Game_state::distance_between_units(Coordinartes cord_unit_1, Coordinartes cord_unit_2){
 
@@ -150,6 +151,14 @@ bool Game_state::is_enemy_within_attack_range(Unit *my_unit, Unit *enemy_unit){
     }
 }
 
+/**
+ * @brief Removes a unit identified by its ID from the game state's map.
+ * 
+ * This function traverses the map to find and remove the unit with the specified ID.
+ * After finding the unit, it deletes the unit from memory and removes the pointer from the vector.
+ * 
+ * @param id The unique ID of the unit to be removed.
+ */
 
 void Game_state::remove_unit_by_id(int id){
 
