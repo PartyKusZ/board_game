@@ -518,7 +518,7 @@ void Commander::give_orders(const char *filename){
 
     File_parser::save_orders(filename,orders);
 
-
+    game_state.clear_map();
 
 for(auto order: orders){
         std::cout<<order;

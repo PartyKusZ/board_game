@@ -177,7 +177,16 @@ void Game_state::remove_unit_by_id(int id){
     }
 }
 
-
+void Game_state::clear_map(){
+    for(int i = 0; i < map.size(); ++i){
+        for(int j = 0; j < map[i].size(); ++j){
+            for(int k = 0; k < map[i][j].units.size(); ++k){
+                delete map[i][j].units[k];
+            }
+            map[i][j].units.clear();
+        }
+    }
+}
 /**
  * @brief Destroy the Game_state::Game_state object
  * 

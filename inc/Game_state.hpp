@@ -26,5 +26,6 @@ class Game_state{
         Coordinartes get_coordinate_by_id(Unit *unit);
         bool is_enemy_within_attack_range(Unit *my_unit, Unit *enemy_unit);
         void remove_unit_by_id(int id);
+        void clear_map();
         ~Game_state();
 };
