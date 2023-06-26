@@ -60,11 +60,14 @@ void floodfill_tests(Map_table map){
 
 }
 
-int main(){
+int main(int argc, char** argv){
     Game_state state;
-    
+    if(argv[1] != "mapa.txt" && argv[2] != "status.txt" && argv[3] != "rozkazy.txt"){
+        std::cerr << "Wrong arguments!" << std::endl;
+        return EXIT_FAILURE;
+    }
     try{
-        state = File_parser::get_game_state("maps_and_status/map_1.txt","maps_and_status/state.txt");
+        state = File_parser::get_game_state(argv[1],argv[2]);
         
     }
     catch (const std::runtime_error& re) {
@@ -91,7 +94,7 @@ int main(){
     // state.remove_unit_by_id(state.find_all_units(Ownership::ENEMIES).front()->get_id());
     // std::cout << state.find_all_units(Ownership::ENEMIES).front()->get_id() << std::endl;
     Commander commander(state);
-    commander.give_orders("r");
+    commander.give_orders(argv[3]);
     
     return 0;
 

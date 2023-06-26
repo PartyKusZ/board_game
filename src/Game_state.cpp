@@ -177,6 +177,13 @@ void Game_state::remove_unit_by_id(int id){
     }
 }
 
+/**
+ * @brief Clears the entire game map by deleting all units and emptying all unit lists on the map.
+ * 
+ * This function traverses the entire map and deletes every unit from memory.
+ * After all units are deleted, the units vector for each map cell is cleared.
+ */
+
 void Game_state::clear_map(){
     for(int i = 0; i < map.size(); ++i){
         for(int j = 0; j < map[i].size(); ++j){
