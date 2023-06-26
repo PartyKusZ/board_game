@@ -21,3 +21,11 @@ TEST(file_parser_test, eneme_base_obscalate) {
     EXPECT_EQ(state.map[4][4].map_filed,Map_field::OBSTACLE);
 
 }
+
+/*returns an exception from standing, it is not possible to convert anything to int */
+// TEST(file_parser_test, empty_status_file) {
+//     auto state = File_parser::get_game_state("mapa.txt","statuse.txt");
+
+//     EXPECT_EQ(state.map[4][4].map_filed,Map_field::OBSTACLE);
+
+// }
