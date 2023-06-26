@@ -33,6 +33,17 @@ std::vector<std::string> File_parser::split_by_space(const std::string& text) {
     return fragments;
 }
 
+/**
+ * @brief Checks if a given string represents a number.
+ *
+ * This method verifies if the provided string can be interpreted as a number.
+ * It checks each character in the string to see if it is a digit. 
+ * If all characters are digits, the string represents a number and the method returns true.
+ * If any character is not a digit, the string does not represent a number and the method returns false.
+ *
+ * @param string The string to check.
+ * @return True if the string represents a number, false otherwise.
+ */
 
 bool File_parser::is_a_number(const std::string &string){
     for(char const &c : string) {
@@ -56,53 +67,69 @@ bool File_parser::is_a_number(const std::string &string){
 
 void File_parser::read_map_file(const char *filename){
 
-    std::ifstream file(filename);
+    try{
+         std::ifstream file(filename);
 
-    if (!file.is_open()) {
-        throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file  :(
-    }
-
-    std::string line;
-    Map_table map_table;
-    std::string character;
-    for(int i = 0; std::getline(file, line); ++i){
-        if(line != ""){ // protection against reading a empty line 
-
-            map_table.push_back({}); // creating a new row of map 
-
-            for(int j = 0; j < line.size(); ++j){ // loop moving through the columns, it means through each char
-            
-                switch (std::stoi(std::string(1, line[j]))){ // converting char to number 
-
-                case FREE:
-                    map_table[i].push_back({Map_field::FREE,{}});
-                    break;
-
-                case OBSTACLE:
-                    map_table[i].push_back({Map_field::OBSTACLE,{}});
-                    break;
-
-                case MY_BASE:
-                    map_table[i].push_back({Map_field::FREE,{}});
-                    break;
-
-                case ENEMIE_BASE:
-                    map_table[i].push_back({Map_field::OBSTACLE,{}});
-                    break;
-                    
-                case MINE:
-                    map_table[i].push_back({Map_field::MINE,{}});
-                    break;
-                default:
-                    break;
-                
-            }   
-          }
-        }else{
-            --i;    //reducing the index by an empty line
+        if (!file.is_open()) {
+            throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file  :(
         }
+
+        std::string line;
+        Map_table map_table;
+        std::string character;
+        for(int i = 0; std::getline(file, line); ++i){
+            if(line != ""){ // protection against reading a empty line 
+
+                map_table.push_back({}); // creating a new row of map 
+
+                for(int j = 0; j < line.size(); ++j){ // loop moving through the columns, it means through each char
+                    switch (std::stoi(std::string(1, line[j]))){ // converting char to number 
+
+                    case FREE:
+                        map_table[i].push_back({Map_field::FREE,{}});
+                        break;
+
+                    case OBSTACLE:
+                        map_table[i].push_back({Map_field::OBSTACLE,{}});
+                        break;
+
+                    case MY_BASE:
+                        map_table[i].push_back({Map_field::FREE,{}});
+                        break;
+
+                    case ENEMIE_BASE:
+                        map_table[i].push_back({Map_field::OBSTACLE,{}});
+                        break;
+                        
+                    case MINE:
+                        map_table[i].push_back({Map_field::MINE,{}});
+                        break;
+                    default:
+                        break;
+                    
+                }   
+            }
+            }else{
+                --i;    //reducing the index by an empty line
+            }
+        }
+        game_state.map = map_table; // writnig map to game_state object
     }
-    game_state.map = map_table; // writnig map to game_state object
+
+    
+    catch (const std::runtime_error& re){
+        std::cerr << "File_parser::read_map_file(): " << re.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
+    }
+    catch (const std::invalid_argument& ia){
+        std::cerr << "File_parser::read_map_file(): Invalid argument: " << ia.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
+    }
+    catch (const std::out_of_range& oor) {
+        std::cerr << "File_parser::read_map_file(): Out of range: " << oor.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
+    }
+   
 }
 
 /**
@@ -112,63 +139,75 @@ void File_parser::read_map_file(const char *filename){
  */
 
 void File_parser::parse_status(std::vector<std::string> split_line){
-    int id;
-    int x_coord;
-    int y_coord;
-    int stamina;
+    
+    try{
+        int id;
+        int x_coord;
+        int y_coord;
+        int stamina;
 
-    Ownership ownership;
-    if(split_line.size() > 1 && split_line[0] != ""){ // protection against reading a empty line 
-        if(split_line[0] == "P"){
-        ownership = Ownership::MINE;
-        }else if(split_line[0] == "E"){
-            ownership = Ownership::ENEMIES; 
-        }
-        id      = std::stoi(split_line[2]); // id of current unit 
-        x_coord = std::stoi(split_line[3]); // x coord of currnet unit 
-        y_coord = std::stoi(split_line[4]); // y coord of current unit
-        stamina = std::stoi(split_line[5]); // stamina of current unit
+        Ownership ownership;
+        if(split_line.size() > 1 && split_line[0] != ""){ // protection against reading a empty line 
+            if(split_line[0] == "P"){
+                ownership = Ownership::MINE;
+            }else if(split_line[0] == "E"){
+                ownership = Ownership::ENEMIES; 
+            }
+            id      = std::stoi(split_line[2]); // id of current unit 
+            x_coord = std::stoi(split_line[3]); // x coord of currnet unit 
+            y_coord = std::stoi(split_line[4]); // y coord of current unit
+            stamina = std::stoi(split_line[5]); // stamina of current unit
 
-        // this block of code checks what types of units are on the field and creates their objects on the map
+            // this block of code checks what types of units are on the field and creates their objects on the map
 
-        if      (split_line[1] == "K"){
-            game_state.map[y_coord][x_coord].units.push_back(new Knight(stamina,id,ownership));
-        }else if(split_line[1] == "S"){
-            game_state.map[y_coord][x_coord].units.push_back(new Swordsman(stamina,id,ownership));
-        }else if(split_line[1] == "A"){
-            game_state.map[y_coord][x_coord].units.push_back(new Archer(stamina,id,ownership));
-        }else if(split_line[1] == "P"){
-            game_state.map[y_coord][x_coord].units.push_back(new Pikeman(stamina,id,ownership));
-        }else if(split_line[1] == "C"){
-            game_state.map[y_coord][x_coord].units.push_back(new Catapult(stamina,id,ownership));   
-        }else if(split_line[1] == "R"){
-            game_state.map[y_coord][x_coord].units.push_back(new Ram(stamina,id,ownership));
-        }else if(split_line[1] == "W"){
-            game_state.map[y_coord][x_coord].units.push_back(new Worker(stamina,id,ownership));
+            if      (split_line[1] == "K"){
+                game_state.map[y_coord][x_coord].units.push_back(new Knight(stamina,id,ownership));
+            }else if(split_line[1] == "S"){
+                game_state.map[y_coord][x_coord].units.push_back(new Swordsman(stamina,id,ownership));
+            }else if(split_line[1] == "A"){
+                game_state.map[y_coord][x_coord].units.push_back(new Archer(stamina,id,ownership));
+            }else if(split_line[1] == "P"){
+                game_state.map[y_coord][x_coord].units.push_back(new Pikeman(stamina,id,ownership));
+            }else if(split_line[1] == "C"){
+                game_state.map[y_coord][x_coord].units.push_back(new Catapult(stamina,id,ownership));   
+            }else if(split_line[1] == "R"){
+                game_state.map[y_coord][x_coord].units.push_back(new Ram(stamina,id,ownership));
+            }else if(split_line[1] == "W"){
+                game_state.map[y_coord][x_coord].units.push_back(new Worker(stamina,id,ownership));
 
-        // When creating a base, check if the base is in 
-        // the process of prduction of a unit and if so, create a base with such a unit.
+            // When creating a base, check if the base is in 
+            // the process of prduction of a unit and if so, create a base with such a unit.
 
-        }else if(split_line[1] == "B"){
-            if(is_a_number(split_line[6])){
-                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership));
+            }else if(split_line[1] == "B"){
+                if(is_a_number(split_line[6])){
+                    game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership));
 
-            }else if(split_line[6] == "K"){
-                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::KNIGHT));
-            }else if(split_line[6] == "S"){
-                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::SWORDSMAN));
-            }else if(split_line[6] == "A"){
-                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::ARCHER));
-            }else if(split_line[6] == "P"){
-                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::PIKEMAN));
-            }else if(split_line[6] == "C"){
-                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::CATAPULT));
-            }else if(split_line[6] == "R"){
-                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::RAM));
-            }else if(split_line[6] == "W"){
-                game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::WORKER));
+                }else if(split_line[6] == "K"){
+                    game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::KNIGHT));
+                }else if(split_line[6] == "S"){
+                    game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::SWORDSMAN));
+                }else if(split_line[6] == "A"){
+                    game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::ARCHER));
+                }else if(split_line[6] == "P"){
+                    game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::PIKEMAN));
+                }else if(split_line[6] == "C"){
+                    game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::CATAPULT));
+                }else if(split_line[6] == "R"){
+                    game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::RAM));
+                }else if(split_line[6] == "W"){
+                    game_state.map[y_coord][x_coord].units.push_back(new Base(stamina,id,ownership,Type_of_unit::WORKER));
+                }
             }
         }
+    }
+    
+    catch (const std::invalid_argument& ia){
+        std::cerr << "File_parser::parse_status(): Invalid argument: " << ia.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
+    }
+    catch (const std::out_of_range& oor) {
+        std::cerr << "File_parser::parse_status(): Out of range: " << oor.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
     }
     
 }
@@ -181,23 +220,43 @@ void File_parser::parse_status(std::vector<std::string> split_line){
  */
 
 void File_parser::read_status_file(const char *filename){
-    
-    std::ifstream file(filename);
 
-    if (!file.is_open()) {
-        throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file :(
+    try{
+        std::ifstream file(filename);
+
+        if (!file.is_open()){
+            throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file :(
+        }
+
+        std::string line;
+        std::vector<std::string> split_line;
+        std::getline(file, line); // read line with gold amount
+        game_state.gold_amount = std::stoi(line); // write gold amount to game_state object
+        while (std::getline(file, line)){
+            split_line = split_by_space(line);
+            parse_status(split_line);
+        }
     }
-
-    std::string line;
-    std::vector<std::string> split_line;
-    std::getline(file, line); // read line with gold amount
-    game_state.gold_amount = std::stoi(line); // write gold amount to game_state object
-    while(std::getline(file, line)){
-        split_line = split_by_space(line);
-        parse_status(split_line);
+    catch (const std::runtime_error& re){
+        //cant open file
+        std::cerr << "File_parser::read_status_file(): RuntimeError: " << re.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
     }
-
-
+    catch (const std::invalid_argument& ia){
+        // error during conversion from string to int
+        std::cerr << "File_parser::read_status_file(): InvalidArgument: " << ia.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
+    }
+    catch (const std::out_of_range& oor){
+        //error during conversion from string to int
+        std::cerr << "File_parser::read_status_file(): OutOfRange: " << oor.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
+    }
+    catch (const std::bad_alloc& ba){
+        //error during allocation of memory
+        std::cerr << "File_parser::read_status_file(): BadAlloc: " << ba.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
+    }
 }
 
 /**
@@ -218,12 +277,20 @@ Game_state File_parser::get_game_state(const char *map_filename,const char *stat
 
 void File_parser::save_orders(const char *filename,std::vector<std::string> orders){
 
-    std::ofstream file(filename);
-    if (!file.is_open()) {
-        throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file  :(
+    try{
+        std::ofstream file(filename);
+        if (!file.is_open()) {
+            throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file  :(
+        }
+        for(auto order: orders){
+            file << order;
+        }
     }
-    for(auto order: orders){
-        file << order;
+
+
+    catch (const std::runtime_error& re) {
+        //cant open file
+        std::cerr << "File_parser::save_orders(): RuntimeError: " << re.what() << '\n';
     }
 }
 

@@ -9,8 +9,21 @@
 #include "File_parser.hpp"
 
 /**
- * @brief 
- * 
+ * @class Commander
+ * @brief The Commander class manages game units and their actions.
+ *
+ * The Commander class is responsible for managing the state of the game, issuing orders, 
+ * managing combat operations, and synchronizing multithreaded operations. It contains information about the 
+ * current state of the game, bases and units for both the player and the enemy, as well as data structures
+ * for issuing and executing orders.
+ *
+ * The class provides functions to handle game state analysis and units' management such as moving, attacking, 
+ * creating units and more. It also provides utility methods for calculating game statistics, such as average 
+ * unit speed, stamina, attack range, etc.
+ *
+ * Threading is used to enable concurrent operations, managed through the use of a mutex and a vector of active threads.
+ *
+ * A variety of game strategies could be implemented by modifying the logic within this class.
  */
 
 class Commander{
