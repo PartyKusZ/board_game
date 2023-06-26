@@ -4,7 +4,7 @@
 #include "Floodfill.hpp"
 #include "Commander.hpp"
 
-
+/*unit tests*/
 void game_state_tests(Game_state state){
     /*użyto plików state.txt i map_1.txt*/
     Coordinartes xy;
