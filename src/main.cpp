@@ -62,21 +62,12 @@ void floodfill_tests(Map_table map){
 }
 
 int main(int argc, char** argv){
-    Game_state state;
-    // if(strcmp(argv[1], "mapa.txt") != 0 || strcmp(argv[2], "status.txt") != 0 || strcmp(argv[3], "rozkazy.txt") != 0){
-    //     std::cout << argv[1] << argv[2] << argv[3] << std::endl;
-    //     std::cerr << "Wrong arguments!\nexpect mapa.txt status.txt rozkazy.txt [t]" << std::endl;
-
-    //     return EXIT_FAILURE;
-    // }
-   
-    state = File_parser::get_game_state("mapa.txt","status.txt");
-  
-    // floodfill_tests(state.map);
-    // game_state_tests(state);
-    // std::cout << state.find_all_units(Ownership::ENEMIES).front()->get_id() << std::endl;
-    // state.remove_unit_by_id(state.find_all_units(Ownership::ENEMIES).front()->get_id());
-    // std::cout << state.find_all_units(Ownership::ENEMIES).front()->get_id() << std::endl;
+    if(strcmp(argv[1], "mapa.txt") != 0 || strcmp(argv[2], "status.txt") != 0 || strcmp(argv[3], "rozkazy.txt") != 0){
+        std::cout << argv[1] << argv[2] << argv[3] << std::endl;
+        std::cerr << "Wrong arguments!\nexpect mapa.txt status.txt rozkazy.txt [t]" << std::endl;
+        return EXIT_FAILURE;
+    } 
+    Game_state state = File_parser::get_game_state("mapa.txt","status.txt");
     Commander commander(state);
     commander.give_orders("rozkazy.txt");
     
