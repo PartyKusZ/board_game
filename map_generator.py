@@ -1,7 +1,7 @@
 import random
 
 # Losuję rozmiar listy 2D
-rozmiar = random.randint(10,40)
+rozmiar = random.randint(5,6)
 
 # Tworzę listę 2D wypełnioną zerami
 lista_2d = [[0 for _ in range(rozmiar)] for _ in range(rozmiar)]
