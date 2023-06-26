@@ -7,8 +7,12 @@ make
 # RUN
 In main directory:
 ```bash
-./game
+./game mapa.txt status.txt rozkazy.txt [t]
 ```
+* mapa.txt - file representing the map
+* status.txt - includes information on the quantity of gold and the status of units
+* rozkazy.txt - orders to units
+* [t] - optional argument, time regime for program execution 
 # DOCUMENTATION
 ## REQUIREMENTS
 * doxygen
