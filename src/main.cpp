@@ -67,9 +67,10 @@ int main(int argc, char** argv){
         std::cerr << "Wrong arguments!\nexpect mapa.txt status.txt rozkazy.txt [t]" << std::endl;
         return EXIT_FAILURE;
     } 
-    Game_state state = File_parser::get_game_state("mapa.txt","status.txt");
+
+    Game_state state = File_parser::get_game_state(argv[1],argv[2]);
     Commander commander(state);
-    commander.give_orders("rozkazy.txt");
+    commander.give_orders(argv[3]);
     
     return 0;
 

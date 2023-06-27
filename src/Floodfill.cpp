@@ -222,6 +222,9 @@ std::vector<Coordinartes> Floodfill::get_path(const Coordinartes &from, const Co
     Coordinartes current_coord = to;
     while(map[current_coord.y][current_coord.x].floodfill_value != 0){
         current_coord = neighbour_with_the_smallest_value(current_coord);
+        if(map[current_coord.y][current_coord.x].floodfill_value == INT_MAX){
+            return path;
+        }
         path.push_back(current_coord);
     }
     std::reverse(path.begin(),path.end());

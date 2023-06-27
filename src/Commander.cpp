@@ -418,7 +418,6 @@ int Commander::number_of_units_relatively(std::vector<Unit *> units){
 
 void Commander::give_orders(const char *filename){
   
-
     /**UNITS CREATING*/
 
     if(my_units.size() == 0 && enemy_units.size() == 0){ // no units on map 
@@ -546,9 +545,7 @@ void Commander::give_orders(const char *filename){
     File_parser::save_orders(filename,orders);
 
 
-for(auto order: orders){
-        std::cout<<order;
-    }
+
 }
 
 

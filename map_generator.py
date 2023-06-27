@@ -1,7 +1,7 @@
 import random
 
 # Losuję rozmiar listy 2D
-rozmiar = random.randint(5,6)
+rozmiar = random.randint(1000,1000)
 
 # Tworzę listę 2D wypełnioną zerami
 lista_2d = [[0 for _ in range(rozmiar)] for _ in range(rozmiar)]
@@ -21,8 +21,29 @@ for i in range(rozmiar):
         # Wpisanie wylosowanej liczby do listy 2D
         lista_2d[i][j] = liczba
 
+ownership = ["P","E"]
+units_name = ["K", "S", "A", "P", "C", "R", "W"]
+units = []
+id = 0
+for i in range(rozmiar):
+    for j in range(rozmiar):
+        if(lista_2d[i][j] != 9 and lista_2d[i][j] != 1 and lista_2d[i][j] != 2):
+            if(j % 10 == 0 ):
+                units.append(random.choice(ownership)+ " " + random.choice(units_name)+ " " + str(id)+ " " + str(j)+ " " + str(i)+ " " + str(15))
+                id += 1
+
+        if id == 998:
+            break
+    if id == 998:
+        break
+
+
 # Wyświetlam listę 2D
 for row in lista_2d:
     for i in row:
         print(i, sep="", end="")
-    print("\n")
+    print("\n",end="")
+
+print("------------------")
+for unit in units:
+    print(unit)
