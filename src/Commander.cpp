@@ -425,13 +425,6 @@ void Commander::give_orders(const char *filename){
             create_unit(Type_of_unit::KNIGHT);
             game_state.gold_amount -= Knight::_cost;
         }
-    }else if(game_state.gold_amount < 500){ // if i have no to much gold
-        if(!my_base->is_under_construction()){
-            create_unit(Type_of_unit::WORKER);
-            game_state.gold_amount -= Worker::_cost;
-        }
-
-
     }else if(average_unit_stamina(my_units) < average_unit_stamina(enemy_units)){ // if enemy has more average stamina
         if(game_state.gold_amount < 200){
             if(!my_base->is_under_construction()){
