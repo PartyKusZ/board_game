@@ -468,7 +468,7 @@ void Commander::give_orders(const char *filename){
                 create_unit(Type_of_unit::CATAPULT);
                 game_state.gold_amount -= Catapult::_cost;
             }
-        }else if(game_state.gold_amount < 800){
+        }else if(game_state.gold_amount < 800 && game_state.gold_amount > 250){
             if(!my_base->is_under_construction()){
                 create_unit(Type_of_unit::ARCHER);
                 game_state.gold_amount -= Archer::_cost;
