@@ -62,11 +62,11 @@ void floodfill_tests(Map_table map){
 }
 
 int main(int argc, char** argv){
-    if(strcmp(argv[1], "mapa.txt") != 0 || strcmp(argv[2], "status.txt") != 0 || strcmp(argv[3], "rozkazy.txt") != 0){
-        std::cout << argv[1] << argv[2] << argv[3] << std::endl;
-        std::cerr << "Wrong arguments!\nexpect mapa.txt status.txt rozkazy.txt [t]" << std::endl;
-        return EXIT_FAILURE;
-    } 
+    // if(strcmp(argv[1], "mapa.txt") != 0 || strcmp(argv[2], "status.txt") != 0 || strcmp(argv[3], "rozkazy.txt") != 0){
+    //     std::cout << argv[1] << argv[2] << argv[3] << std::endl;
+    //     std::cerr << "Wrong arguments!\nexpect mapa.txt status.txt rozkazy.txt [t]" << std::endl;
+    //     return EXIT_FAILURE;
+    // } 
 
     Game_state state = File_parser::get_game_state(argv[1],argv[2]);
     Commander commander(state);
