@@ -2,6 +2,7 @@
 #include "../inc/Floodfill.hpp"
 #include "../inc/File_parser.hpp"
 #include "../inc/Game_state.hpp"
+#include "../inc/Enemie_forces.hpp"
 
 TEST(file_parser_test, my_base_free) {
     auto state = File_parser::get_game_state("mapa.txt","status.txt");
@@ -19,6 +20,12 @@ TEST(file_parser_test, eneme_base_obscalate) {
     auto state = File_parser::get_game_state("mapa.txt","status.txt");
 
     EXPECT_EQ(state.map[4][4].map_filed,Map_field::OBSTACLE);
+
+}
+
+TEST(file_parser_test, save_enemy_forces) {
+    File_parser::save_enemie_forces({1,2,7,9,2,5});
+    /*output in game.txt -> good output*/
 
 }
 

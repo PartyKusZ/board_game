@@ -291,8 +291,35 @@ void File_parser::save_orders(const char *filename,std::vector<std::string> orde
     catch (const std::runtime_error& re) {
         //cant open file
         std::cerr << "File_parser::save_orders(): RuntimeError: " << re.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
     }
 }
+
+
+void File_parser::save_enemie_forces(const Enemie_forces &enemie_forces){
+
+    std::ofstream file;
+
+    try{
+        file.open("game.txt", std::ios::app);
+        if (!file.is_open()) {
+            throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file  :(
+        }
+        file << std::to_string(enemie_forces.turn_number) << std::endl << 
+                std::to_string(enemie_forces.base_stamina) << std::endl <<
+                std::to_string(enemie_forces.number_of_units_relatively) << std::endl <<
+                std::to_string(enemie_forces.avr_stamina) << std::endl << 
+                std::to_string(enemie_forces.avr_speed)   << std::endl << 
+                std::to_string(enemie_forces.avr_attack_range) << std::endl;
+        
+    }
+    catch (const std::runtime_error& re) {
+        //cant open file
+        std::cerr << "File_parser::save_enemie_forces(): RuntimeError: " << re.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
+    }
+}
+
 
 /**
  * @brief Destroy the File_parser::File_parser object
