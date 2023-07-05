@@ -23,9 +23,15 @@ TEST(file_parser_test, eneme_base_obscalate) {
 
 }
 
-TEST(file_parser_test, save_enemy_forces) {
-    File_parser::save_enemie_forces({1,2,7,9,2,5});
-    /*output in game.txt -> good output*/
+// TEST(file_parser_test, save_enemy_forces) {
+//     File_parser::save_enemie_forces({1,2,7,9,2,5});
+//     /*output in game.txt -> good output*/
+// }
+
+TEST(file_parser_test, get_enemie_forces) {
+    std::vector<Enemie_forces> state = File_parser::get_enemie_forces();
+    std::vector<Enemie_forces> exprect = {{1,2,7,9,2,5},{1,2,7,9,2,5}};
+    EXPECT_EQ(state,exprect);
 
 }
 

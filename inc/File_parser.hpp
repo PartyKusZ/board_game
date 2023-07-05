@@ -34,6 +34,6 @@ class File_parser{
         static Game_state get_game_state(const char *map_filename,const char *status_filename);
         static void save_orders(const char *filename, std::vector<std::string> orders);
         static void save_enemie_forces(const Enemie_forces &enemie_forces);
-        static Enemie_forces get_enemie_forces();
+        static std::vector<Enemie_forces> get_enemie_forces();
         ~File_parser();
 };

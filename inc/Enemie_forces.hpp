@@ -16,4 +16,11 @@ class Enemie_forces{
         int avr_stamina;
         int avr_speed;
         int avr_attack_range;
+        /*for test compiling*/
+        bool operator==(const Enemie_forces &other) const {
+            return turn_number == other.turn_number && 
+            base_stamina == other.base_stamina && 
+            number_of_units_relatively == other.number_of_units_relatively && 
+            avr_stamina == other.avr_stamina && avr_speed == other.avr_speed && 
+            avr_attack_range == other.avr_attack_range;}
 };
