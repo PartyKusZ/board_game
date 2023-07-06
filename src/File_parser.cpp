@@ -291,8 +291,82 @@ void File_parser::save_orders(const char *filename,std::vector<std::string> orde
     catch (const std::runtime_error& re) {
         //cant open file
         std::cerr << "File_parser::save_orders(): RuntimeError: " << re.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
     }
 }
+
+
+void File_parser::save_enemie_forces(const Enemie_forces &enemie_forces){
+
+    std::ofstream file;
+
+    try{
+        file.open("game.txt", std::ios::app);
+        if (!file.is_open()) {
+            throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file  :(
+        }
+        file << std::to_string(enemie_forces.turn_number) << std::endl << 
+                std::to_string(enemie_forces.base_stamina) << std::endl <<
+                std::to_string(enemie_forces.number_of_units_relatively) << std::endl <<
+                std::to_string(enemie_forces.avr_stamina) << std::endl << 
+                std::to_string(enemie_forces.avr_speed)   << std::endl << 
+                std::to_string(enemie_forces.avr_attack_range) << std::endl;
+        
+    }
+    catch (const std::runtime_error& re) {
+        //cant open file
+        std::cerr << "File_parser::save_enemie_forces(): RuntimeError: " << re.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
+    }
+}
+
+std::vector<Enemie_forces> File_parser::get_enemie_forces(){
+    std::ifstream file("game.txt");
+    std::vector<Enemie_forces> enemie_forces;
+
+    try{
+
+        if (!file.is_open()){
+            throw std::runtime_error("Błąd otwarcia pliku!"); // cannot open file :(
+        }
+        Enemie_forces temp;
+        std::string line;
+        for(int i = 0; std::getline(file, line); ++i){   
+            switch(i){
+                case 0:
+                    temp.turn_number = std::stoi(line);
+                    break;
+                case 1:
+                    temp.base_stamina = std::stoi(line);
+                    break;
+                case 2:
+                    temp.number_of_units_relatively = std::stoi(line);
+                    break;
+                case 3:
+                    temp.avr_stamina = std::stoi(line);
+                    break;
+                case 4:
+                    temp.avr_speed = std::stoi(line);
+                    break;
+                case 5:
+                    temp.avr_attack_range = std::stoi(line);
+                    break;
+            }
+            if(i == 5){
+                enemie_forces.push_back(temp);
+                i = -1;
+            }
+        }
+    }
+
+    catch (const std::runtime_error& re) {
+        //cant open file
+        std::cerr << "File_parser::get_enemie_forces(): RuntimeError: " << re.what() << '\n';
+        exit(EXIT_FAILURE); // Zwracamy kod błędu
+    }
+    return enemie_forces;
+}
+
 
 /**
  * @brief Destroy the File_parser::File_parser object
