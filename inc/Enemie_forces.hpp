@@ -10,12 +10,12 @@
 
 class Enemie_forces{   
     public:
-        int turn_number;
-        int base_stamina;
-        int number_of_units_relatively;
-        int avr_stamina;
-        int avr_speed;
-        int avr_attack_range;
+        int turn_number; //!< The turn number of the game.
+        int base_stamina; //!< The base stamina of the enemy forces.
+        int number_of_units_relatively; //!< The number of enemy units relatively.
+        int avr_stamina; //!< The average stamina of the enemy forces.
+        int avr_speed; //!< The average speed of the enemy forces.
+        int avr_attack_range; //!< The average attack range of the enemy forces.
         /*for test compiling*/
         bool operator==(const Enemie_forces &other) const {
             return turn_number == other.turn_number && 
