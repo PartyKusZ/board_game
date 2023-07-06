@@ -8,6 +8,7 @@
 #include "Floodfill.hpp"
 #include "Game_state.hpp"
 #include "File_parser.hpp"
+#include "Enemie_forces_analysis.hpp"
 
 /**
  * @class Commander
@@ -41,6 +42,8 @@ class Commander{
         std::vector<Unit *> enemy_units; //!< Vector storing pointers to the enemy's units.
         std::vector<Coordinartes> mines; //!< Vector storing the coordinates of mines.
         std::vector<std::string> orders; //!< Vector storing issued commands or orders.
+
+        Enemie_forces_analysis enemie_forces_analysis; //!< Object responsible for analyzing the enemy's forces.
 
 
         int base_with_more_stamina();

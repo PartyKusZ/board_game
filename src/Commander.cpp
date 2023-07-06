@@ -9,7 +9,7 @@
  *
  * @param _state The current state of the game.
  */
-Commander::Commander(Game_state _state): game_state(_state){
+Commander::Commander(Game_state _state): game_state(_state), enemie_forces_analysis(File_parser::get_enemie_forces()){
 
     try{
         my_base = dynamic_cast<Base *>(game_state.find_base(Ownership::MINE));
