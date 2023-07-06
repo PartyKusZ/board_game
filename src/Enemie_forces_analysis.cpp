@@ -20,7 +20,7 @@ Enemie_forces_analysis::Enemie_forces_analysis(std::vector<Enemie_forces> _enemi
  */
 
 std::vector<int> Enemie_forces_analysis::base_stamina_diff(int latest_turns_numbers){
-
+    std::vector<int> base_stamina_diff;
     try{
         if(latest_turns_numbers > enemie_forces.size()){
             throw std::invalid_argument("latest_turns_numbers jest większe od  enemie_forces");
@@ -28,7 +28,6 @@ std::vector<int> Enemie_forces_analysis::base_stamina_diff(int latest_turns_numb
             throw std::invalid_argument("latest_turns_numbers jest mniejsze od 2");
         }
 
-        std::vector<int> base_stamina_diff;
         for(int i = enemie_forces.size() - latest_turns_numbers; i < enemie_forces.size() - 1; i++){
             base_stamina_diff.push_back(enemie_forces[i + 1].base_stamina - enemie_forces[i].base_stamina);
         }
@@ -38,6 +37,7 @@ std::vector<int> Enemie_forces_analysis::base_stamina_diff(int latest_turns_numb
         std::cerr << "Enemie_forces_analysis::base_stamina_diff" << e.what() << '\n';
         exit(EXIT_FAILURE);
     }
+    return base_stamina_diff;
 }
 
 /**
@@ -54,6 +54,8 @@ std::vector<int> Enemie_forces_analysis::base_stamina_diff(int latest_turns_numb
  */
 
 std::vector<int> Enemie_forces_analysis::number_of_units_relatively_diff(int latest_turns_numbers){
+    std::vector<int> number_of_units_relatively_diff;
+
     try{
         if(latest_turns_numbers > enemie_forces.size()){
             throw std::invalid_argument("latest_turns_numbers jest większe od  enemie_forces");
@@ -61,7 +63,6 @@ std::vector<int> Enemie_forces_analysis::number_of_units_relatively_diff(int lat
             throw std::invalid_argument("latest_turns_numbers jest mniejsze od 2");
         }
 
-        std::vector<int> number_of_units_relatively_diff;
         for(int i = enemie_forces.size() - latest_turns_numbers; i < enemie_forces.size() - 1; i++){
             number_of_units_relatively_diff.push_back(enemie_forces[i + 1].number_of_units_relatively - enemie_forces[i].number_of_units_relatively);
         }
@@ -72,6 +73,7 @@ std::vector<int> Enemie_forces_analysis::number_of_units_relatively_diff(int lat
         exit(EXIT_FAILURE);
         
     }
+    return number_of_units_relatively_diff;
 }
 
 /**
@@ -88,6 +90,8 @@ std::vector<int> Enemie_forces_analysis::number_of_units_relatively_diff(int lat
  */
 
 std::vector<int> Enemie_forces_analysis::avr_stamina_diff(int latest_turns_numbers){
+    std::vector<int> avr_stamina_diff;
+
     try{
         if(latest_turns_numbers > enemie_forces.size()){
             throw std::invalid_argument("latest_turns_numbers jest większe od  enemie_forces");
@@ -95,7 +99,6 @@ std::vector<int> Enemie_forces_analysis::avr_stamina_diff(int latest_turns_numbe
             throw std::invalid_argument("latest_turns_numbers jest mniejsze od 2");
         }
 
-        std::vector<int> avr_stamina_diff;
         for(int i = enemie_forces.size() - latest_turns_numbers; i < enemie_forces.size() - 1; i++){
             avr_stamina_diff.push_back(enemie_forces[i + 1].avr_stamina - enemie_forces[i].avr_stamina);
         }
@@ -105,6 +108,7 @@ std::vector<int> Enemie_forces_analysis::avr_stamina_diff(int latest_turns_numbe
         std::cerr << "Enemie_forces_analysis::avr_stamina_diff" << e.what() << '\n';
         exit(EXIT_FAILURE);
     }
+    return avr_stamina_diff;
 }
 
 /**
@@ -121,6 +125,8 @@ std::vector<int> Enemie_forces_analysis::avr_stamina_diff(int latest_turns_numbe
  */
 
 std::vector<int> Enemie_forces_analysis::avr_speed_diff(int latest_turns_numbers){
+    std::vector<int> avr_speed_diff;
+
     try{
         if(latest_turns_numbers > enemie_forces.size()){
             throw std::invalid_argument("latest_turns_numbers jest większe od  enemie_forces");
@@ -128,7 +134,6 @@ std::vector<int> Enemie_forces_analysis::avr_speed_diff(int latest_turns_numbers
             throw std::invalid_argument("latest_turns_numbers jest mniejsze od 2");
         }
 
-        std::vector<int> avr_speed_diff;
         for(int i = enemie_forces.size() - latest_turns_numbers; i < enemie_forces.size() - 1; i++){
             avr_speed_diff.push_back(enemie_forces[i + 1].avr_speed - enemie_forces[i].avr_speed);
         }
@@ -138,6 +143,7 @@ std::vector<int> Enemie_forces_analysis::avr_speed_diff(int latest_turns_numbers
         std::cerr << "Enemie_forces_analysis::avr_speed_diff" << e.what() << '\n';
         exit(EXIT_FAILURE);
     }
+    return avr_speed_diff;
 }
 
 /**
@@ -153,7 +159,9 @@ std::vector<int> Enemie_forces_analysis::avr_speed_diff(int latest_turns_numbers
  *  or less than 2.
  */
 
-std::vector<int> Enemie_forces_analysis::avr_attack_diff(int latest_turns_numbers){
+std::vector<int> Enemie_forces_analysis::avr_attack_range_diff(int latest_turns_numbers){
+    std::vector<int> avr_attack_diff;
+
     try{
         if(latest_turns_numbers > enemie_forces.size()){
             throw std::invalid_argument("latest_turns_numbers jest większe od  enemie_forces");
@@ -161,7 +169,6 @@ std::vector<int> Enemie_forces_analysis::avr_attack_diff(int latest_turns_number
             throw std::invalid_argument("latest_turns_numbers jest mniejsze od 2");
         }
 
-        std::vector<int> avr_attack_diff;
         for(int i = enemie_forces.size() - latest_turns_numbers; i < enemie_forces.size() - 1; i++){
             avr_attack_diff.push_back(enemie_forces[i + 1].avr_attack_range - enemie_forces[i].avr_attack_range);
         }
@@ -171,6 +178,7 @@ std::vector<int> Enemie_forces_analysis::avr_attack_diff(int latest_turns_number
         std::cerr << "Enemie_forces_analysis::avr_attack_diff" << e.what() << '\n';
         exit(EXIT_FAILURE);
     }
+    return avr_attack_diff;
 }
 /**
  * @brief Destroy the Enemie_forces_analysis::Enemie_forces_analysis object

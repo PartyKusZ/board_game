@@ -24,6 +24,6 @@ class Enemie_forces_analysis{
         std::vector<int> number_of_units_relatively_diff(int latest_turns_numbers);
         std::vector<int> avr_stamina_diff(int latest_turns_numbers);
         std::vector<int> avr_speed_diff(int latest_turns_numbers);
-        std::vector<int> avr_attack_diff(int latest_turns_numbers);
+        std::vector<int> avr_attack_range_diff(int latest_turns_numbers);
         ~Enemie_forces_analysis();
 };
