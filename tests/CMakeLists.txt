@@ -28,7 +28,8 @@ add_executable(test_test ${SRC}
                         ../src/Ram.cpp
                         ../src/Swordsman.cpp
                         ../src/Unit.cpp
-                        ../src/Worker.cpp)
+                        ../src/Worker.cpp
+                        ../src/Enemie_forces_analysis.cpp)
 target_link_libraries(test_test ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
 
 
