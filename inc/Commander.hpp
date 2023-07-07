@@ -54,7 +54,7 @@ class Commander{
         int percent_of_units_around_base(Base *base, std::vector<Unit *> units, int range);
         int percent_of_units_around_mine(Coordinartes mine, std::vector<Unit *> units, int range);
         int damage_inflicited(Type_of_unit attacker, Type_of_unit attacked);
-        int number_of_units_relatively(std::vector<Unit *> units);
+        double number_of_units_relatively(std::vector<Unit *> units);
         std::vector<Unit *> are_units_in_attack_range(Unit *my_unit, std::vector<Unit *> enemies_unit);
         Ownership who_will_win_skirmish(Unit *my_unit, Unit *enemy_unit);
         std::vector<Type_of_unit> what_can_i_build();

@@ -421,12 +421,12 @@ void Commander::create_unit(Type_of_unit unit){
  * @return The number of given units relative to the total number of units.
  */
 
-int Commander::number_of_units_relatively(std::vector<Unit *> units){
+double Commander::number_of_units_relatively(std::vector<Unit *> units){
     
     if(my_units.size() == 0 && enemy_units.size() == 0){
         return 0;
     }else{
-        return units.size() / (my_units.size() + enemy_units.size());
+        return static_cast<double>(units.size()) / (my_units.size() + enemy_units.size());
     }
 }
 
@@ -594,6 +594,15 @@ void Commander::give_orders(const char *filename){
     initial_game_phase();
 
     
+    File_parser::save_enemie_forces({
+        0,
+        enemy_base->get_stamina(),
+        number_of_units_relatively(enemy_units),
+        average_unit_stamina(enemy_units),
+        average_unit_speed(enemy_units),
+        average_unit_attack_range(enemy_units)
+    });
+
     File_parser::save_orders(filename,orders);
 
 }
