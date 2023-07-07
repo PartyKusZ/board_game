@@ -430,18 +430,7 @@ int Commander::number_of_units_relatively(std::vector<Unit *> units){
     }
 }
 
-/**
- * @brief Function to process and issue orders to units based on game state.
- *
- * This function analyzes the current game state and makes strategic decisions to control units.
- * Depending on the game state, it might create new units, move existing ones or order them to attack. 
- * The issued orders are saved to a file.
- * 
- * @param filename The name of the file where the orders will be saved.
- */
-
-void Commander::give_orders(const char *filename){
-
+void Commander::initial_game_phase(){
     int base_more_stamina = base_with_more_stamina();
     int my_avr_unit_stamina = average_unit_stamina(my_units);
     int my_avr_unit_speed = average_unit_speed(my_units);
@@ -455,11 +444,6 @@ void Commander::give_orders(const char *filename){
                                         [this](Coordinartes mine_1, Coordinartes mine_2)
                                         {return this->game_state.distance_between_units(mine_1,this->my_base) < this->game_state.distance_between_units(mine_2,this->my_base);});
 
-        int dis_between_mine_and_my_base = game_state.distance_between_units(*nearest_mine_from_my_base,my_base);
-        int dis_between_mine_and_enemy_base = game_state.distance_between_units(*nearest_mine_from_my_base,enemy_base);
-
-        if(dis_between_mine_and_my_base < dis_between_mine_and_enemy_base){ // I have a shorter path to the mine than the enemy
-
         /*start of the game*/
 
            if(enemie_forces_analysis.turn_amount() < 2){
@@ -472,7 +456,7 @@ void Commander::give_orders(const char *filename){
 
                 int count = std::count_if(my_units.begin(),my_units.end(),[](Unit *unit){return unit->get_type_of_unit() == Type_of_unit::WORKER;});
                 if(count % 3 != 0 ){
-                    if(!my_base->is_under_construction()){
+                    if(!my_base->is_under_construction() && game_state.gold_amount >= Worker::_cost){
                         create_unit(Type_of_unit::WORKER);
                         game_state.gold_amount -= Worker::_cost;
                     }
@@ -496,11 +480,120 @@ void Commander::give_orders(const char *filename){
                         }
                     }
                 }
-                /*wysyłaine jednostek w odpowiednie miejsca*/
+
+                /*sprawdzanie możliwości ataku*/
+                for(int i = 0; i < my_units.size(); ++i){ // czy mogę atakować bazę przeciwnika
+                    if(game_state.is_enemy_within_attack_range(my_units[i],enemy_base)){
+                        if(enemy_base->get_stamina() > 0){
+                        attack_unit(my_units[i],enemy_base);
+                        my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
+                        break;
+                        }
+                    }
+                    for(int j = 0; j < enemy_units.size(); ++j){
+                        if(game_state.is_enemy_within_attack_range(my_units[i],enemy_units[j])){
+                            if(who_will_win_skirmish(my_units[i],enemy_units[j]) == Ownership::MINE){ // simulating who is likely to win
+                                attack_unit(my_units[i],enemy_units[j]);
+                                my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 
+
+                /*wysyłaine jednostek w odpowiednie miejsca*/
+                int enemy_units_aorund_my_base = percent_of_units_around_base(my_base,enemy_units,(game_state.map.size() + game_state.map[0].size()) * 0.25 / 2);
+                if(base_more_stamina - (static_cast<double>(enemy_units_aorund_my_base) * 0.3) > 0 ){
+                    for(int i = 0; i < my_units.size(); ++i){
+                        threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], *nearest_mine_from_my_base, my_units[i]->get_speed()));     
+                    }
+                }else{
+                   for(int i = 0; i < my_units.size(); ++i){
+                        threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(my_base), my_units[i]->get_speed()));     
+                   } 
+                }
+                for(int i = 0; i < threads.size(); ++i){
+                   threads[i].join();
+                }
+          }
+    }else{ // brak kopalni na mapie 
+        if(enemie_forces_analysis.turn_amount() > 0 && enemie_forces_analysis.turn_amount() < 100){
+            if(!my_base->is_under_construction()){
+                auto units_i_can_build = what_can_i_build();
+                auto unit_to_build = std::find(units_i_can_build.begin(),units_i_can_build.end(),Type_of_unit::KNIGHT);
+                if(*unit_to_build == Type_of_unit::KNIGHT){
+                        create_unit(Type_of_unit::KNIGHT);
+                        game_state.gold_amount -= Knight::_cost;
+                }else{
+                    unit_to_build = std::find(units_i_can_build.begin(),units_i_can_build.end(),Type_of_unit::SWORDSMAN);
+                    if(*unit_to_build == Type_of_unit::SWORDSMAN){
+                            create_unit(Type_of_unit::SWORDSMAN);
+                            game_state.gold_amount -= Swordsman::_cost;
+                    }else{
+                        unit_to_build = std::find(units_i_can_build.begin(),units_i_can_build.end(),Type_of_unit::PIKEMAN);
+                        if(*unit_to_build == Type_of_unit::PIKEMAN){
+                            create_unit(Type_of_unit::PIKEMAN);
+                            game_state.gold_amount -= Pikeman::_cost;
+                        }
+                    }
+                }
             }
+            /*sprawdzanie możliwości ataku*/
+                for(int i = 0; i < my_units.size(); ++i){ // czy mogę atakować bazę przeciwnika
+                    if(game_state.is_enemy_within_attack_range(my_units[i],enemy_base)){
+                        if(enemy_base->get_stamina() > 0){
+                        attack_unit(my_units[i],enemy_base);
+                        my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
+                        break;
+                        }
+                    }
+                    for(int j = 0; j < enemy_units.size(); ++j){
+                        if(game_state.is_enemy_within_attack_range(my_units[i],enemy_units[j])){
+                            if(who_will_win_skirmish(my_units[i],enemy_units[j]) == Ownership::MINE){ // simulating who is likely to win
+                                attack_unit(my_units[i],enemy_units[j]);
+                                my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
+                                break;
+                            }
+                        }
+                    }
+                }
+                 /*wysyłaine jednostek w odpowiednie miejsca*/
+                int enemy_units_aorund_my_base = percent_of_units_around_base(my_base,enemy_units,(game_state.map.size() + game_state.map[0].size()) * 0.25 / 2);
+                if(base_more_stamina - (static_cast<double>(enemy_units_aorund_my_base) * 0.3) > 0 ){
+                    for(int i = 0; i < my_units.size(); ++i){
+                        threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));     
+                    }
+                }else{
+                   for(int i = 0; i < my_units.size(); ++i){
+                        threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(my_base), my_units[i]->get_speed()));     
+                   } 
+                }
+                for(int i = 0; i < threads.size(); ++i){
+                   threads[i].join();
+                }
+
         }
     }
+}
+
+
+
+/**
+ * @brief Function to process and issue orders to units based on game state.
+ *
+ * This function analyzes the current game state and makes strategic decisions to control units.
+ * Depending on the game state, it might create new units, move existing ones or order them to attack. 
+ * The issued orders are saved to a file.
+ * 
+ * @param filename The name of the file where the orders will be saved.
+ */
+
+void Commander::give_orders(const char *filename){
+    initial_game_phase();
+
+    
     File_parser::save_orders(filename,orders);
 
 }

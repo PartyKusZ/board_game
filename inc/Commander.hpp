@@ -62,7 +62,7 @@ class Commander{
         void attack_unit(Unit *unit_1, Unit *unit_2);
         void create_unit(Type_of_unit unit);
 
-
+        void initial_game_phase();
 
 
 
