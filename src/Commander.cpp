@@ -279,6 +279,30 @@ Ownership Commander::who_will_win_skirmish(Unit *my_unit, Unit *enemy_unit){
     }
 }
 
+std::vector<Type_of_unit> Commander::what_can_i_build(){
+    std::vector<Type_of_unit> units;
+    if(game_state.gold_amount >= 100){
+        units.push_back(Type_of_unit::WORKER);
+    }
+    if(game_state.gold_amount >= 200){
+        units.push_back(Type_of_unit::PIKEMAN);
+    }
+    if(game_state.gold_amount >= 250){
+        units.push_back(Type_of_unit::ARCHER);
+        units.push_back(Type_of_unit::SWORDSMAN);
+    }
+    if(game_state.gold_amount >= 400){
+        units.push_back(Type_of_unit::KNIGHT);
+    }
+    if(game_state.gold_amount >= 500){
+        units.push_back(Type_of_unit::RAM);
+    }
+    if(game_state.gold_amount >= 800){
+        units.push_back(Type_of_unit::CATAPULT);
+    }   
+    return units;
+}
+
 /**
  * @brief Moves a given unit to a specified coordinate on the map at a given speed.
  * 
@@ -417,130 +441,69 @@ int Commander::number_of_units_relatively(std::vector<Unit *> units){
  */
 
 void Commander::give_orders(const char *filename){
-  
-    /**UNITS CREATING*/
 
-    if(my_units.size() == 0 && enemy_units.size() == 0){ // no units on map 
-        if(!my_base->is_under_construction()){
-            create_unit(Type_of_unit::KNIGHT);
-            game_state.gold_amount -= Knight::_cost;
-        }
-    }else if(average_unit_stamina(my_units) < average_unit_stamina(enemy_units)){ // if enemy has more average stamina
-        if(game_state.gold_amount < 200){
+    int base_more_stamina = base_with_more_stamina();
+    int my_avr_unit_stamina = average_unit_stamina(my_units);
+    int my_avr_unit_speed = average_unit_speed(my_units);
+    int my_avr_unit_atack_range = average_unit_attack_range(my_units);
+    int enemy_avr_unit_stamina = average_unit_stamina(enemy_units);
+    int enemy_avr_unit_speed = average_unit_speed(enemy_units);
+    int enemy_avr_unit_atack_range = average_unit_attack_range(enemy_units);
+    
+    if(mines.size() > 0){
+        auto nearest_mine_from_my_base = std::min_element(mines.begin(), mines.end(), 
+                                        [this](Coordinartes mine_1, Coordinartes mine_2)
+                                        {return this->game_state.distance_between_units(mine_1,this->my_base) < this->game_state.distance_between_units(mine_2,this->my_base);});
+
+        int dis_between_mine_and_my_base = game_state.distance_between_units(*nearest_mine_from_my_base,my_base);
+        int dis_between_mine_and_enemy_base = game_state.distance_between_units(*nearest_mine_from_my_base,enemy_base);
+
+        if(dis_between_mine_and_my_base < dis_between_mine_and_enemy_base){ // I have a shorter path to the mine than the enemy
+
+        /*start of the game*/
+
+           if(enemie_forces_analysis.turn_amount() < 2){
             if(!my_base->is_under_construction()){
                 create_unit(Type_of_unit::WORKER);
                 game_state.gold_amount -= Worker::_cost;
             }
-        }else if(game_state.gold_amount < 250){
-            if(!my_base->is_under_construction()){
-                create_unit(Type_of_unit::PIKEMAN);
-                game_state.gold_amount -= Pikeman::_cost;
-            }
-        }else if(game_state.gold_amount < 300){
-            if(!my_base->is_under_construction()){
-                create_unit(Type_of_unit::SWORDSMAN);
-                game_state.gold_amount -= Swordsman::_cost;
-            }
-        }else if(game_state.gold_amount < 400){
-            if(!my_base->is_under_construction()){
-                create_unit(Type_of_unit::ARCHER);
-                game_state.gold_amount -= Archer::_cost;
-            }
-        }else if(game_state.gold_amount < 500){
-            if(!my_base->is_under_construction()){
-                create_unit(Type_of_unit::KNIGHT);
-                game_state.gold_amount -= Knight::_cost;
-            }
-        }else if(game_state.gold_amount < 800){
-            if(!my_base->is_under_construction()){
-                create_unit(Type_of_unit::RAM);
-                game_state.gold_amount -= Ram::_cost;
-            }
-        }else if(game_state.gold_amount >= 800){
-            if(!my_base->is_under_construction()){
-                create_unit(Type_of_unit::CATAPULT);
-                game_state.gold_amount -= Archer::_cost;
-            }
-        }
-    }else{
-        if(game_state.gold_amount >= 800){
-            if(!my_base->is_under_construction()){
-                create_unit(Type_of_unit::CATAPULT);
-                game_state.gold_amount -= Catapult::_cost;
-            }
-        }else if(game_state.gold_amount < 800 && game_state.gold_amount > 250){
-            if(!my_base->is_under_construction()){
-                create_unit(Type_of_unit::ARCHER);
-                game_state.gold_amount -= Archer::_cost;
-            }
-        }
-    }
+            }else if(enemie_forces_analysis.turn_amount() > 2 && enemie_forces_analysis.turn_amount() < 100){
+            /*ten blok decyduje jakie zakupić jednostki na początek gry */
 
-
-    /*UNITS MOVMENT AND ATTACK*/
-
-        /*ATTACK*/
-    for(int i = 0; i < my_units.size(); ++i){
-        if(game_state.is_enemy_within_attack_range(my_units[i],enemy_base)){
-            if(enemy_base->get_stamina() > 0){
-                attack_unit(my_units[i],enemy_base);
-                my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
-                break;
-            }
-        }
-        for(int j = 0; j < enemy_units.size(); ++j){
-            if(game_state.is_enemy_within_attack_range(my_units[i],enemy_units[j])){
-                if(who_will_win_skirmish(my_units[i],enemy_units[j]) == Ownership::MINE){ // simulating who is likely to win
-                    attack_unit(my_units[i],enemy_units[j]);
-                    my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
-                }
-            }
-        }
-            
-    }
-        /*MOVE*/
-           
-    if(base_with_more_stamina() - percent_of_units_around_base(my_base,enemy_units, 0.5*(game_state.map.size() + game_state.map[0].size()) / 2) > 0){ // good for me, going to attack the base
-        for(int i = 0; i < my_units.size(); ++i){
-            if(my_units[i]->get_type_of_unit() != Type_of_unit::WORKER){
-                threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));            
-            }else{ 
-                // choose to go to the nearest mine 
-                auto mines = game_state.find_mines();
-                if(mines.size() > 0){
-                    std::vector<int> dist;
-                    for(auto mine: mines){
-                        dist.push_back(game_state.distance_between_units(mine,my_units[i]));
+                int count = std::count_if(my_units.begin(),my_units.end(),[](Unit *unit){return unit->get_type_of_unit() == Type_of_unit::WORKER;});
+                if(count % 3 != 0 ){
+                    if(!my_base->is_under_construction()){
+                        create_unit(Type_of_unit::WORKER);
+                        game_state.gold_amount -= Worker::_cost;
                     }
-                    auto min_elem = std::min_element(dist.begin(),dist.end());
-                    auto index = std::distance(dist.begin(), min_elem);
-                    threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], mines[index], my_units[i]->get_speed()));            
-
                 }else{
-                    threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));
+                    if(!my_base->is_under_construction()){
+                        auto units_i_can_build = what_can_i_build();
+                        auto unit_to_build = std::find(units_i_can_build.begin(),units_i_can_build.end(),Type_of_unit::KNIGHT);
+                        if(*unit_to_build == Type_of_unit::KNIGHT){
+                                create_unit(Type_of_unit::KNIGHT);
+                                game_state.gold_amount -= Knight::_cost;
+                        }else{
+                            unit_to_build = std::find(units_i_can_build.begin(),units_i_can_build.end(),Type_of_unit::SWORDSMAN);
+                            if(*unit_to_build == Type_of_unit::SWORDSMAN){
+                                    create_unit(Type_of_unit::SWORDSMAN);
+                                    game_state.gold_amount -= Swordsman::_cost;
+                            }else{
+                                unit_to_build = std::find(units_i_can_build.begin(),units_i_can_build.end(),Type_of_unit::WORKER);
+                                    create_unit(Type_of_unit::WORKER);
+                                    game_state.gold_amount -= Worker::_cost;
+                            }
+                        }
+                    }
                 }
+                /*wysyłaine jednostek w odpowiednie miejsca*/
                 
             }
         }
-        for(int i = 0; i < threads.size(); ++i){
-            threads[i].join();
-        }
-    }else{ //unfavourable state of the game for me, I move units back to my base
-        for(int i = 0; i < my_units.size(); ++i){
-            threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(my_base), my_units[i]->get_speed()));            
-        }
-        for(int i = 0; i < threads.size(); ++i){
-            threads[i].join();
-        }
     }
-
-
     File_parser::save_orders(filename,orders);
 
-
-
 }
-
 
 
 /**

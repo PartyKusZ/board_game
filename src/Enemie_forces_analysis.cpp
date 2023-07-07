@@ -180,6 +180,11 @@ std::vector<int> Enemie_forces_analysis::avr_attack_range_diff(int latest_turns_
     }
     return avr_attack_diff;
 }
+
+int Enemie_forces_analysis::turn_amount(){
+    return enemie_forces.size();
+}
+
 /**
  * @brief Destroy the Enemie_forces_analysis::Enemie_forces_analysis object
  * 
