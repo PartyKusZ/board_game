@@ -63,6 +63,7 @@ class Commander{
         void create_unit(Type_of_unit unit);
 
         void initial_game_phase();
+        void middle_game_phase();
 
 
 
