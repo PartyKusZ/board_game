@@ -588,7 +588,9 @@ void Commander::initial_game_phase(){
                     }
                 }else{
                    for(int i = 0; i < my_units.size(); ++i){
-                        threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(my_base), my_units[i]->get_speed()));     
+                        if(my_units[i]->get_type_of_unit() != Type_of_unit::WORKER){
+                                threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));     
+                            }
                    } 
                 }
                 for(int i = 0; i < threads.size(); ++i){
@@ -612,13 +614,14 @@ void Commander::initial_game_phase(){
 
 void Commander::middle_game_phase(){
     int base_more_stamina = base_with_more_stamina();
-    auto enemy_base_stamina_diff = enemie_forces_analysis.base_stamina_diff(50);
-    auto enemy_num_of_units_relatively_diff = enemie_forces_analysis.number_of_units_relatively_diff(50);
-    auto enemy_avr_stamina_diff = enemie_forces_analysis.avr_stamina_diff(50);
-    auto enemy_avr_speed_diff = enemie_forces_analysis.avr_speed_diff(50);
-    auto enemy_avr_attack_range_diff = enemie_forces_analysis.avr_attack_range_diff(50);
+   
 
     if(enemie_forces_analysis.turn_amount() >= 100  && enemie_forces_analysis.turn_amount() < 700){
+        auto enemy_base_stamina_diff = enemie_forces_analysis.base_stamina_diff(50);
+        auto enemy_num_of_units_relatively_diff = enemie_forces_analysis.number_of_units_relatively_diff(50);
+        auto enemy_avr_stamina_diff = enemie_forces_analysis.avr_stamina_diff(50);
+        auto enemy_avr_speed_diff = enemie_forces_analysis.avr_speed_diff(50);
+        auto enemy_avr_attack_range_diff = enemie_forces_analysis.avr_attack_range_diff(50);
         int enemy_base_stamina_diff_val = std::count_if(enemy_base_stamina_diff.begin(),
                                                         enemy_base_stamina_diff.end(),
                                                         [](int diff_val){return diff_val < 0;});
@@ -626,7 +629,7 @@ void Commander::middle_game_phase(){
         if(enemy_base_stamina_diff_val / enemy_base_stamina_diff.size() > 60){ // w 60% ostatnich 50 tur zadałem uszkodzenia bazie przeciwnika
             auto what_can_i_buy= what_can_i_build();
             auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::WORKER);
-            if(number_of_units_relatively(my_units) > 50){
+            if(number_of_units_relatively(my_units) > 50 || my_units.size() % 10 != 0){
                 if(!my_base->is_under_construction()){
                     if(*unit == Type_of_unit::WORKER){
                         create_unit(Type_of_unit::WORKER);
@@ -736,7 +739,203 @@ void Commander::middle_game_phase(){
                         if(my_units[i]->get_type_of_unit() == Type_of_unit::WORKER){
                             threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], *nearest_mine_from_my_base, my_units[i]->get_speed()));     
                         }else{
+                            if(game_state.distance_between_units(*nearest_mine_from_my_base, my_units[i]) > 3){
+                                threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));     
+                            }else{
+                                threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], *nearest_mine_from_my_base, my_units[i]->get_speed()));     
+                            }
+                        }
+                    }
+                }else{
+                   for(int i = 0; i < my_units.size(); ++i){
+                        if(my_units[i]->get_type_of_unit() != Type_of_unit::WORKER){
+                            threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(my_base), my_units[i]->get_speed()));     
+                        }
+                   } 
+                }
+                for(int i = 0; i < threads.size(); ++i){
+                   threads[i].join();
+                }
+
+        }else{
+            int enemy_units_aorund_my_base = percent_of_units_around_base(my_base,enemy_units,(game_state.map.size() + game_state.map[0].size()) * 0.25 / 2);
+                if(base_more_stamina - (static_cast<double>(enemy_units_aorund_my_base) * 0.3) > 0 ){
+                    for(int i = 0; i < my_units.size(); ++i){
+                        if(my_units[i]->get_type_of_unit() == Type_of_unit::WORKER){
                             threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));     
+                        }else{
+                            threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));     
+                        }
+                    }
+                }else{
+                   for(int i = 0; i < my_units.size(); ++i){
+                        threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));     
+                   } 
+                }
+                for(int i = 0; i < threads.size(); ++i){
+                   threads[i].join();
+                }
+        }                                  
+
+    }
+}
+/**
+ * @brief Executes the final phase of the game, making strategic decisions based on current game state.
+ *
+ * This method handles decision making during the final phase of the game, analyzing enemy forces, 
+ * deciding what units to create, whether to attack or defend, and managing unit movement. These decisions 
+ * are based on a variety of factors, such as the strength and size of enemy forces, the number of turns passed, 
+ * and the amount of resources available. 
+ *
+ * This method should be called each turn during the final phase of the game.
+ *
+ * @note This method does not return any value.
+ */
+
+void Commander::final_game_phase(){
+    int base_more_stamina = base_with_more_stamina();
+    if(enemie_forces_analysis.turn_amount() >= 700){
+        auto enemy_base_stamina_diff = enemie_forces_analysis.base_stamina_diff(50);
+        auto enemy_num_of_units_relatively_diff = enemie_forces_analysis.number_of_units_relatively_diff(50);
+        auto enemy_avr_stamina_diff = enemie_forces_analysis.avr_stamina_diff(50);
+        auto enemy_avr_speed_diff = enemie_forces_analysis.avr_speed_diff(50);
+        auto enemy_avr_attack_range_diff = enemie_forces_analysis.avr_attack_range_diff(50);
+        auto what_can_i_buy= what_can_i_build();
+        int enemy_base_stamina_diff_val = std::count_if(enemy_base_stamina_diff.begin(),
+                                                        enemy_base_stamina_diff.end(),
+                                                        [](int diff_val){return diff_val < 0;});
+        if(enemy_base_stamina_diff_val / enemy_base_stamina_diff.size() > 60){ // w 60% ostatnich 50 tur zadałem uszkodzenia bazie przeciwnika
+
+            
+            if(!my_base->is_under_construction()){
+                if(my_units.size() % 10 != 0){
+                    auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::CATAPULT);
+                    if(*unit == Type_of_unit::CATAPULT){
+                        create_unit(Type_of_unit::CATAPULT);
+                        game_state.gold_amount -= Catapult::_cost;
+                    }else{
+                        auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::RAM);
+                        if(*unit == Type_of_unit::RAM){
+                            create_unit(Type_of_unit::RAM);
+                            game_state.gold_amount -= Ram::_cost;
+                        }else{
+                            auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::KNIGHT);
+                            if(*unit == Type_of_unit::KNIGHT){
+                                create_unit(Type_of_unit::KNIGHT);
+                                game_state.gold_amount -= Knight::_cost;
+                            }else{
+                                auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::SWORDSMAN);
+                                if(*unit == Type_of_unit::SWORDSMAN){
+                                    create_unit(Type_of_unit::SWORDSMAN);
+                                    game_state.gold_amount -= Swordsman::_cost;
+                                }else{
+                                    auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::PIKEMAN);
+                                    if(*unit == Type_of_unit::PIKEMAN){
+                                        create_unit(Type_of_unit::PIKEMAN);
+                                        game_state.gold_amount -= Pikeman::_cost;
+                                    }else{
+                                        auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::ARCHER);
+                                        if(*unit == Type_of_unit::ARCHER){
+                                            create_unit(Type_of_unit::ARCHER);
+                                            game_state.gold_amount -= Archer::_cost;
+                                        }
+                                    }
+                                }
+                            }
+                        }   
+                    }
+                }else{
+                    auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::WORKER);
+                    if(*unit == Type_of_unit::WORKER){
+                        create_unit(Type_of_unit::WORKER);
+                        game_state.gold_amount -= Worker::_cost;
+                    }
+                }       
+            }
+        }else{
+               if(!my_base->is_under_construction()){
+                    auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::KNIGHT);
+                    if(*unit == Type_of_unit::KNIGHT){
+                        create_unit(Type_of_unit::KNIGHT);
+                        game_state.gold_amount -= Knight::_cost;
+                    }else{
+                        auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::SWORDSMAN);
+                        if(*unit == Type_of_unit::SWORDSMAN){
+                            create_unit(Type_of_unit::SWORDSMAN);
+                            game_state.gold_amount -= Swordsman::_cost;
+                        }else{
+                            auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::PIKEMAN);
+                            if(*unit == Type_of_unit::PIKEMAN){
+                                create_unit(Type_of_unit::PIKEMAN);
+                                game_state.gold_amount -= Pikeman::_cost;
+                            }else{
+                                auto unit = std::find(what_can_i_buy.begin(), what_can_i_buy.end(), Type_of_unit::ARCHER);
+                                if(*unit == Type_of_unit::ARCHER){
+                                    create_unit(Type_of_unit::ARCHER);
+                                    game_state.gold_amount -= Archer::_cost;
+                                }
+                            }
+                        }
+                    }
+                } 
+            }
+
+            for(int i = 0; i < my_units.size(); ++i){ // czy mogę atakować bazę przeciwnika
+            if(game_state.is_enemy_within_attack_range(my_units[i],enemy_base)){
+                if(enemy_base->get_stamina() > 0){
+                attack_unit(my_units[i],enemy_base);
+                my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
+                break;
+                }
+            }
+            for(int j = 0; j < enemy_units.size(); ++j){
+                if(game_state.is_enemy_within_attack_range(my_units[i],enemy_units[j])){
+                    if(who_will_win_skirmish(my_units[i],enemy_units[j]) == Ownership::MINE){ // simulating who is likely to win
+                        attack_unit(my_units[i],enemy_units[j]);
+                        my_units[i]->set_speed(my_units[i]->get_speed() - 1); //cost of attack; one speed
+                        break;
+                    }
+                }
+            }
+        }
+         if(mines.size() > 0){
+            auto nearest_mine_from_my_base = std::min_element(mines.begin(), mines.end(), 
+                                        [this](Coordinartes mine_1, Coordinartes mine_2)
+                                        {return this->game_state.distance_between_units(mine_1,this->my_base) < this->game_state.distance_between_units(mine_2,this->my_base);});
+            int enemy_units_aorund_my_base = percent_of_units_around_base(my_base,enemy_units,(game_state.map.size() + game_state.map[0].size()) * 0.25 / 2);
+                if(base_more_stamina - (static_cast<double>(enemy_units_aorund_my_base) * 0.3) > 0 ){
+                    for(int i = 0; i < my_units.size(); ++i){
+                        if(my_units[i]->get_type_of_unit() == Type_of_unit::WORKER){
+                            threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], *nearest_mine_from_my_base, my_units[i]->get_speed()));     
+                        }else{
+                            if(game_state.distance_between_units(*nearest_mine_from_my_base, my_units[i]) > 3){
+                                threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));     
+                            }else{
+                                threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], *nearest_mine_from_my_base, my_units[i]->get_speed()));     
+                            }
+                        }
+                    }
+                }else{
+                   for(int i = 0; i < my_units.size(); ++i){
+                        if(my_units[i]->get_type_of_unit() != Type_of_unit::WORKER){
+                                threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));     
+                            }
+                   } 
+                }
+                for(int i = 0; i < threads.size(); ++i){
+                   threads[i].join();
+                }
+
+        }else{
+            int enemy_units_aorund_my_base = percent_of_units_around_base(my_base,enemy_units,(game_state.map.size() + game_state.map[0].size()) * 0.25 / 2);
+                if(base_more_stamina - (static_cast<double>(enemy_units_aorund_my_base) * 0.3) > 0 ){
+                    for(int i = 0; i < my_units.size(); ++i){
+                        if(my_units[i]->get_type_of_unit() == Type_of_unit::WORKER){
+                            threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));     
+                        }else{
+                            if(my_units[i]->get_type_of_unit() != Type_of_unit::WORKER){
+                                threads.push_back(std::thread(&Commander::move_unit, this, my_units[i], game_state.get_coordinate_by_id(enemy_base), my_units[i]->get_speed()));     
+                            }
                         }
                     }
                 }else{
@@ -747,12 +946,10 @@ void Commander::middle_game_phase(){
                 for(int i = 0; i < threads.size(); ++i){
                    threads[i].join();
                 }
-
-        }                                  
+        }     
 
     }
 }
-
 
 
 /**
@@ -768,6 +965,7 @@ void Commander::middle_game_phase(){
 void Commander::give_orders(const char *filename){
     initial_game_phase();
     middle_game_phase();
+    final_game_phase();
 
     
     File_parser::save_enemie_forces({

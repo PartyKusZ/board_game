@@ -64,6 +64,7 @@ class Commander{
 
         void initial_game_phase();
         void middle_game_phase();
+        void final_game_phase();
 
 
 
