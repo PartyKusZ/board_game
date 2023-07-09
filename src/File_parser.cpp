@@ -340,7 +340,7 @@ std::vector<Enemie_forces> File_parser::get_enemie_forces(){
                     temp.base_stamina = std::stoi(line);
                     break;
                 case 2:
-                    temp.number_of_units_relatively = std::stoi(line);
+                    temp.number_of_units_relatively = std::stod(line);
                     break;
                 case 3:
                     temp.avr_stamina = std::stoi(line);
