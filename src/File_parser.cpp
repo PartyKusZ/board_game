@@ -372,6 +372,11 @@ std::vector<Enemie_forces> File_parser::get_enemie_forces(){
         std::cerr << "File_parser::get_enemie_forces(): RuntimeError: " << re.what() << '\n';
         exit(EXIT_FAILURE); // Zwracamy kod błędu
     }
+    file.close();
+    if(enemie_forces.size() == 1000){
+        file.open("game.txt", std::ofstream::out | std::ofstream::trunc);
+        file.close();
+    }
     return enemie_forces;
 }
 
