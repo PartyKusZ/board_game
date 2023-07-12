@@ -321,7 +321,15 @@ void File_parser::save_enemie_forces(const Enemie_forces &enemie_forces){
 }
 
 std::vector<Enemie_forces> File_parser::get_enemie_forces(){
-    std::ifstream file("game.txt");
+    std::string filename = "game.txt";
+    std::ifstream ifile(filename.c_str());
+
+    if(!ifile) { // If file doesn't exist, create it
+        std::ofstream ofile(filename.c_str());
+        ofile.close();
+    }
+    
+    std::ifstream file(filename.c_str());
     std::vector<Enemie_forces> enemie_forces;
 
     try{
@@ -366,7 +374,6 @@ std::vector<Enemie_forces> File_parser::get_enemie_forces(){
     }
     return enemie_forces;
 }
-
 
 /**
  * @brief Destroy the File_parser::File_parser object
