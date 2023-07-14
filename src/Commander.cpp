@@ -328,7 +328,13 @@ void Commander::move_unit(Unit *unit, Coordinartes xy, int speed){
     }
     if(path.size() > 0){
         if(path.size() > speed){
-            target = path[speed]; 
+            for(int i = 0; i < path.size(); ++i){
+                if(game_state.distance_between_units(path[i],game_state.get_coordinate_by_id(unit)) == speed){
+                    target = path[i];
+                    break;
+                }
+            }
+            target = path[speed]; // stare rozwiązanie
         }else{
             target = path[path.size()-1];
         }
