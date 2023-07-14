@@ -327,16 +327,10 @@ void Commander::move_unit(Unit *unit, Coordinartes xy, int speed){
         path.push_back(xy);    
     }
     if(path.size() > 0){
-        if(path.size() > speed){
-            for(int i = 0; i < path.size(); ++i){
-                if(game_state.distance_between_units(path[i],game_state.get_coordinate_by_id(unit)) == speed){
-                    target = path[i];
-                    break;
-                }
+        for(int i = 0; i < path.size(); ++i){
+            if(game_state.distance_between_units(game_state.get_coordinate_by_id(unit),path[i]) <= speed){
+                target = path[i];
             }
-            target = path[speed]; // stare rozwiązanie
-        }else{
-            target = path[path.size()-1];
         }
         order += std::to_string(unit->get_id()) + " ";
         order += "M ";
@@ -345,9 +339,9 @@ void Commander::move_unit(Unit *unit, Coordinartes xy, int speed){
         order += "\n";
         std::lock_guard<std::mutex> guard(mutex);
         orders.push_back(order);
+        
     }
 }
-
 /**
  * @brief Makes one unit attack another.
  * 
